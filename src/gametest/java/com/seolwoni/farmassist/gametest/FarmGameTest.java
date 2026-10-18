@@ -85,6 +85,7 @@ public class FarmGameTest implements FabricClientGameTest {
 			log.add("ended after " + ticks + " ticks, running=" + running + " waiting=" + waiting);
 			if (!running) failures.add("farmer stopped by itself before finishing the round");
 			else if (!waiting) failures.add("round not finished within " + limit + " ticks");
+			final boolean stillRunning = running;
 			context.runOnClient(mc -> {
 				FarmStats st = FarmStats.session;
 				log.add("rounds=" + st.rounds + " trips=" + st.trips + " total=" + st.totalHarvest());
@@ -95,7 +96,7 @@ public class FarmGameTest implements FabricClientGameTest {
 					if (s.is(net.minecraft.world.item.Items.WHEAT_SEEDS)) seeds += s.getCount();
 				}
 				log.add("wheat seeds kept in inventory: " + seeds);
-				if (running) Farmer.stop(null, null, false);
+				if (stillRunning) Farmer.stop(null, null, false);
 			});
 			checkWorld(sp);
 		} catch (Throwable t) {
