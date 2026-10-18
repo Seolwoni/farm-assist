@@ -402,7 +402,8 @@ public final class Farmer {
 				Body.newTurn();
 				double dist = Math.sqrt(p.blockPosition().distSqr(target));
 				limit = (int) (60 + dist * 14);
-				if (p.blockPosition().distManhattan(target) >= 3) walker = new com.seolwoni.assistpath.walk.PathWalker(new com.seolwoni.assistpath.goals.GoalBlock(target));
+				// Straight there when nothing is in the way; otherwise let Assist Path find the way round.
+				if (p.blockPosition().distManhattan(target) >= 3 && !com.seolwoni.assistcore.util.Blocks2.lineWalkable(p.position(), target)) walker = new com.seolwoni.assistpath.walk.PathWalker(new com.seolwoni.assistpath.goals.GoalBlock(target));
 			}
 			if (pre-- > 0) return RUN;
 			if (post >= 0) return post-- <= 0 ? DONE : RUN;
