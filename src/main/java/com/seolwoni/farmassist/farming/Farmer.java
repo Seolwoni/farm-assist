@@ -70,7 +70,9 @@ public final class Farmer {
 	}
 
 	static final List<Missed> missed = new ArrayList<>();
-	private static boolean retryDone, collected;
+	private static boolean retryDone;
+	/** Rounds of picking up drops this round (a second look catches what rolled away or was missed). */
+	private static int collectPasses;
 
 	private Farmer() {
 	}
@@ -154,7 +156,7 @@ public final class Farmer {
 		Chores.seedTripDone = false;
 		missed.clear();
 		retryDone = false;
-		collected = false;
+		collectPasses = 0;
 		stops = new ArrayList<>();
 		stopField = new ArrayList<>();
 		List<FieldEntry> fields = FarmConfig.get().fields;
@@ -251,9 +253,9 @@ public final class Farmer {
 		}
 		if (Chores.plan(mc, p, cfg)) return;
 
-		if (stopIndex >= stops.size() && !collected) {
+		if (stopIndex >= stops.size() && collectPasses < 2) {
 			// Pick up what rolled away (melon slices, cane, seeds) before replanting and storing.
-			collected = true;
+			collectPasses++;
 			if (planCollect(mc, p, cfg)) return;
 		}
 		if (stopIndex >= stops.size() && !retryDone) {
@@ -291,7 +293,7 @@ public final class Farmer {
 	private static boolean planCollect(Minecraft mc, LocalPlayer p, FarmConfig cfg) {
 		List<BlockPos> stops = new ArrayList<>();
 		for (FieldEntry f : cfg.fields) {
-			AABB box = new AABB(f.minX() - 1, f.y - 1, f.minZ() - 1, f.maxX() + 2, f.y + 3, f.maxZ() + 2);
+			AABB box = new AABB(f.minX() - 2, f.y - 1, f.minZ() - 2, f.maxX() + 3, f.y + 3, f.maxZ() + 3);
 			for (Entity e : mc.level.getEntities(p, box)) {
 				if (!(e instanceof net.minecraft.world.entity.item.ItemEntity) || !e.isAlive()) continue;
 				BlockPos at = e.blockPosition();
