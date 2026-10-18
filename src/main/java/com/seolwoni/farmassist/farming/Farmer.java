@@ -70,7 +70,7 @@ public final class Farmer {
 	}
 
 	static final List<Missed> missed = new ArrayList<>();
-	private static boolean retryDone;
+	private static boolean retryDone, collected;
 
 	private Farmer() {
 	}
@@ -154,6 +154,7 @@ public final class Farmer {
 		Chores.seedTripDone = false;
 		missed.clear();
 		retryDone = false;
+		collected = false;
 		stops = new ArrayList<>();
 		stopField = new ArrayList<>();
 		List<FieldEntry> fields = FarmConfig.get().fields;
@@ -250,6 +251,11 @@ public final class Farmer {
 		}
 		if (Chores.plan(mc, p, cfg)) return;
 
+		if (stopIndex >= stops.size() && !collected) {
+			// Pick up what rolled away (melon slices, cane, seeds) before replanting and storing.
+			collected = true;
+			if (planCollect(mc, p, cfg)) return;
+		}
 		if (stopIndex >= stops.size() && !retryDone) {
 			// Go back once to the spots that could not be replanted (the seeds are in the inventory by now).
 			retryDone = true;
@@ -279,6 +285,45 @@ public final class Farmer {
 		status("밭 " + (field + 1) + " 도는 중 (" + (i + 1) + "/" + stops.size() + ")");
 		add(new WalkAction(stop));
 		add(new HarvestAction(FarmConfig.get().fields.get(field), field));
+	}
+
+	/** Walks over to drops lying in or next to the fields. */
+	private static boolean planCollect(Minecraft mc, LocalPlayer p, FarmConfig cfg) {
+		List<BlockPos> stops = new ArrayList<>();
+		for (FieldEntry f : cfg.fields) {
+			AABB box = new AABB(f.minX() - 1, f.y - 1, f.minZ() - 1, f.maxX() + 2, f.y + 3, f.maxZ() + 2);
+			for (Entity e : mc.level.getEntities(p, box)) {
+				if (!(e instanceof net.minecraft.world.entity.item.ItemEntity) || !e.isAlive()) continue;
+				BlockPos at = e.blockPosition();
+				if (p.getBoundingBox().inflate(1.0, 0.5, 1.0).intersects(e.getBoundingBox())) continue;
+				boolean near = false;
+				for (BlockPos s : stops) if (s.distManhattan(at) <= 1) near = true;
+				if (near) continue;
+				BlockPos stand = null;
+				for (int dy = 0; dy <= 1 && stand == null; dy++) {
+					for (int[] o : new int[][] {{0, 0}, {1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {-1, -1}, {1, -1}, {-1, 1}}) {
+						BlockPos q = at.offset(o[0], dy, o[1]);
+						if (Crops.standable(q)) {
+							stand = q;
+							break;
+						}
+					}
+				}
+				if (stand != null) stops.add(stand);
+				if (stops.size() >= 16) break;
+			}
+		}
+		if (stops.isEmpty()) return false;
+		status("떨어진 수확물 줍는 중");
+		BlockPos from = p.blockPosition();
+		while (!stops.isEmpty()) {
+			final BlockPos fr = from;
+			BlockPos n = stops.stream().min(java.util.Comparator.comparingDouble(s -> s.distSqr(fr))).get();
+			stops.remove(n);
+			add(new WalkAction(n, true));
+			from = n;
+		}
+		return true;
 	}
 
 	static void walkFailed() {
@@ -332,11 +377,18 @@ public final class Farmer {
 
 	static final class WalkAction implements Action {
 		private final BlockPos target;
+		private final boolean quiet;
 		private boolean started;
 		private int pre, post = -1, limit;
 
 		WalkAction(BlockPos target) {
+			this(target, false);
+		}
+
+		/** quiet = a failure here does not count towards "the way is blocked". */
+		WalkAction(BlockPos target, boolean quiet) {
 			this.target = target;
+			this.quiet = quiet;
 		}
 
 		@Override
@@ -358,7 +410,7 @@ public final class Farmer {
 			}
 			if (Body.walkTicks() > limit) {
 				Body.release(mc);
-				walkFailed();
+				if (!quiet) walkFailed();
 				return FAIL;
 			}
 			return RUN;
