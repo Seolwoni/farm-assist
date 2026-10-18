@@ -68,6 +68,12 @@ public final class Farmer {
 	/** Most common seed seen per field, used to plant empty farmland. */
 	static final Map<Integer, Map<Item, Integer>> seen = new HashMap<>();
 	static boolean seedShort;
+	/** Spots that could not be replanted yet (no seed in hand at the time): retried once before the round ends. */
+	record Missed(BlockPos stand, Item seed, BlockPos on, Direction face, BlockPos target) {
+	}
+
+	static final List<Missed> missed = new ArrayList<>();
+	private static boolean retryDone;
 
 	private Farmer() {
 	}
@@ -148,6 +154,9 @@ public final class Farmer {
 		stopIndex = 0;
 		walkFails = 0;
 		seedShort = false;
+		Chores.seedTripDone = false;
+		missed.clear();
+		retryDone = false;
 		stops = new ArrayList<>();
 		stopField = new ArrayList<>();
 		List<FieldEntry> fields = FarmConfig.get().fields;
@@ -253,6 +262,20 @@ public final class Farmer {
 		}
 		if (Chores.plan(mc, p, cfg)) return;
 
+		if (stopIndex >= stops.size() && !retryDone) {
+			// Go back once to the spots that could not be replanted (the seeds are in the inventory by now).
+			retryDone = true;
+			if (!missed.isEmpty()) {
+				status("못 심은 곳 다시 심는 중 (" + missed.size() + "곳)");
+				List<Missed> list = new ArrayList<>(missed);
+				missed.clear();
+				for (Missed m : list) {
+					add(new WalkAction(m.stand()));
+					add(new PlantAction(m.seed(), m.on(), m.face(), m.target(), true));
+				}
+				return;
+			}
+		}
 		if (stopIndex >= stops.size()) {
 			// Round done: store, then wait.
 			phase = Phase.STORE;
@@ -521,14 +544,20 @@ public final class Farmer {
 		private final Item seed;
 		private final BlockPos on, target;
 		private final Direction face;
-		private int stage, delay, wait, slot, tries;
+		private final boolean retry;
+		private int stage, delay, wait, slot, tries, pickupWait;
 		private Vec3 hit;
 
 		PlantAction(Item seed, BlockPos on, Direction face, BlockPos target) {
+			this(seed, on, face, target, false);
+		}
+
+		PlantAction(Item seed, BlockPos on, Direction face, BlockPos target, boolean retry) {
 			this.seed = seed;
 			this.on = on;
 			this.face = face;
 			this.target = target;
+			this.retry = retry;
 		}
 
 		@Override
@@ -538,7 +567,10 @@ public final class Farmer {
 					if (!Blocks2.state(target).isAir()) return DONE;
 					slot = Inv.bringToHotbar(mc, p, s -> s.is(seed));
 					if (slot == -1) {
-						seedShort = true;
+						// The seed we just harvested may still be lying on the ground: give it a moment.
+						if (pickupWait++ < 16) return RUN;
+						if (retry) seedShort = true;
+						else missed.add(new Missed(p.blockPosition(), seed, on, face, target));
 						return DONE;
 					}
 					hit = facePoint(on, face, 0.1);

@@ -10,7 +10,7 @@ import net.minecraft.world.InteractionHand;
 
 /** Eating, and going to the chests when the inventory fills up or seeds run out. */
 final class Chores {
-	private static boolean seedTripDone;
+	static boolean seedTripDone;
 
 	private Chores() {
 	}
@@ -39,7 +39,6 @@ final class Chores {
 			Farmer.add(new Storage.TripAction());
 			return true;
 		}
-		if (!Farmer.seedShort) seedTripDone = false;
 		return false;
 	}
 

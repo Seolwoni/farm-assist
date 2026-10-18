@@ -89,6 +89,7 @@ public class FarmGameTest implements FabricClientGameTest {
 			context.runOnClient(mc -> {
 				FarmStats st = FarmStats.session;
 				log.add("rounds=" + st.rounds + " trips=" + st.trips + " total=" + st.totalHarvest());
+				if (st.trips > 2) failures.add("went to the chest " + st.trips + " times in one round (expected at most 2)");
 				for (Map.Entry<String, FarmStats.Entry> e : st.crops.entrySet()) log.add("  harvested " + e.getKey() + ": " + e.getValue().count);
 				int seeds = 0;
 				for (int i = 0; i < 36; i++) {
