@@ -1,0 +1,15 @@
+{
+	"schemaVersion": 1,
+	"id": "farmassist-gametest",
+	"version": "1.0.0",
+	"name": "Farm Assist Game Tests",
+	"environment": "client",
+	"entrypoints": {
+		"fabric-client-gametest": [
+			"com.seolwoni.farmassist.gametest.FarmGameTest"
+		]
+	},
+	"depends": {
+		"farmassist": "*"
+	}
+}
