@@ -58,7 +58,9 @@ public class FarmAssistClient implements ClientModInitializer {
 			if (!FarmConfig.get().modEnabled || hand != InteractionHand.MAIN_HAND) return InteractionResult.PASS;
 			if (!player.isShiftKeyDown() || !player.getMainHandItem().is(ItemTags.HOES)) return InteractionResult.PASS;
 			Field.click(hit.getBlockPos());
-			return InteractionResult.SUCCESS;
+			// FAIL = handled here and nothing is sent to the server, so the ground is not tilled.
+			player.swing(hand);
+			return InteractionResult.FAIL;
 		});
 
 		HudElementRegistry.addLast(id("hud"), (graphics, delta) -> FarmHud.render(graphics));
