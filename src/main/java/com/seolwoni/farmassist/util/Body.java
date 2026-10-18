@@ -36,19 +36,31 @@ public final class Body {
 		turnSpeed = 7f + Human.RANDOM.nextFloat() * 7f;
 	}
 
+	/** Current angular speed in degrees per tick. Kept between targets so the head never jerks. */
+	private static float vel;
+
 	/**
-	 * Turns towards yaw/pitch with an ease-out. Returns true once within {@code tolerance} degrees.
+	 * Turns towards yaw/pitch like a hand on a mouse: speeds up, cruises, then eases in.
+	 * The speed carries over from the previous turn instead of snapping. Returns true once within
+	 * {@code tolerance} degrees.
 	 */
 	public static boolean turnTo(LocalPlayer p, float yaw, float pitch, float tolerance) {
 		float dy = wrap(yaw - p.getYRot());
 		float dp = pitch - p.getXRot();
 		float dist = (float) Math.sqrt(dy * dy + dp * dp);
-		if (dist <= tolerance) return true;
-		float step = Math.min(dist, Math.max(1.5f, Math.min(turnSpeed, dist * 0.45f)));
+		if (dist <= tolerance) {
+			vel *= 0.5f;
+			return true;
+		}
+		float accel = Math.max(0.6f, turnSpeed * 0.3f);
+		float want = Math.max(0.6f, Math.min(turnSpeed, (float) Math.sqrt(2f * accel * dist)));
+		if (vel < want) vel = Math.min(want, vel + accel);
+		else vel = Math.max(want, vel - accel * 1.5f);
+		float step = Math.min(vel, dist);
 		float f = step / dist;
 		p.setYRot(p.getYRot() + dy * f);
 		p.setXRot(Math.max(-90f, Math.min(90f, p.getXRot() + dp * f)));
-		return false;
+		return dist - step <= tolerance;
 	}
 
 	public static boolean lookAt(LocalPlayer p, Vec3 t, float tolerance) {
