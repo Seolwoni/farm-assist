@@ -1,0 +1,27 @@
+{
+	"schemaVersion": 1,
+	"id": "farmassist",
+	"version": "${version}",
+	"name": "Farm Assist",
+	"description": "자동 농사 모드 — 괭이로 Shift+우클릭해 밭을 지정하면, 다 자란 작물만 수확하고 다시 심고, 여러 상자에 분류 보관해요. Made by seolwoni",
+	"authors": [
+		"seolwoni"
+	],
+	"license": "All-Rights-Reserved",
+	"icon": "assets/farmassist/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"com.seolwoni.farmassist.FarmAssistClient"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~26.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"modmenu": "*"
+	}
+}
