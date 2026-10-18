@@ -225,6 +225,9 @@ public class FarmGameTest implements FabricClientGameTest {
 			int lying = level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class,
 					new net.minecraft.world.phys.AABB(-1, 99, -1, 22, 106, 10)).size();
 			o.add("info: drops left lying in the fields = " + lying);
+			for (var ie : level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class, new net.minecraft.world.phys.AABB(-1, 99, -1, 22, 106, 10))) {
+				o.add(String.format("info:   %s x%d at %.2f %.2f %.2f age=%d", ie.getItem().getItem(), ie.getItem().getCount(), ie.getX(), ie.getY(), ie.getZ(), ie.getAge()));
+			}
 			if (lying > 2) o.add(lying + " drops left lying in the fields");
 			if (stored == 0) o.add("nothing was stored in the chest");
 			return o;
