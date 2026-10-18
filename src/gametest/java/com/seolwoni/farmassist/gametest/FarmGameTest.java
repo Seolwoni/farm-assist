@@ -83,6 +83,7 @@ public class FarmGameTest implements FabricClientGameTest {
 			}
 			context.takeScreenshot("farm-99-end");
 			log.add("ended after " + ticks + " ticks, running=" + running + " waiting=" + waiting);
+			log.add(com.seolwoni.assistpath.AssistPath.Stats.summary());
 			if (!running) failures.add("farmer stopped by itself before finishing the round");
 			else if (!waiting) failures.add("round not finished within " + limit + " ticks");
 			final boolean stillRunning = running;
