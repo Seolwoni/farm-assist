@@ -5,109 +5,119 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import com.seolwoni.assistcore.hud.AssistHud;
+import com.seolwoni.assistcore.hud.HudBox;
+import com.seolwoni.assistcore.hud.HudBox.Seg;
 import com.seolwoni.farmassist.config.FarmConfig;
 import com.seolwoni.farmassist.farming.Farmer;
 import com.seolwoni.farmassist.farming.Field;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.network.chat.Component;
-
-/** Two HUD boxes: status and harvest statistics. */
+/** Two HUD boxes: status and harvest statistics. Drawing, moving and hiding come from Assist Core. */
 public final class FarmHud {
-	public enum Box { STATUS, STATS }
+	private static final int GOLD = HudBox.GOLD, WHITE = HudBox.WHITE, GRAY = HudBox.GRAY, GREEN = HudBox.GREEN, RED = HudBox.RED;
 
-	private static final int PAD = 3;
-	private static final int GOLD = 0xFFFFAA00, WHITE = 0xFFFFFFFF, GRAY = 0xFFAAAAAA, GREEN = 0xFF55FF55, RED = 0xFFFF5555;
-	private static final int[] W = {140, 140}, H = {60, 60};
+	public static final HudBox STATUS = new HudBox() {
+		@Override
+		public boolean enabled() {
+			return FarmConfig.get().modEnabled && FarmConfig.get().statusHud;
+		}
 
-	private record Seg(String t, int c) {
-	}
+		@Override
+		public List<List<Seg>> lines() {
+			return statusLines();
+		}
+
+		@Override
+		public float x() {
+			return FarmConfig.get().hudX;
+		}
+
+		@Override
+		public float y() {
+			return FarmConfig.get().hudY;
+		}
+
+		@Override
+		public float scale() {
+			return FarmConfig.get().hudScale;
+		}
+
+		@Override
+		public void setPos(float x, float y) {
+			FarmConfig.get().hudX = x;
+			FarmConfig.get().hudY = y;
+		}
+
+		@Override
+		protected void storeScale(float s) {
+			FarmConfig.get().hudScale = s;
+		}
+
+		@Override
+		public int bgAlpha() {
+			return FarmConfig.get().hudBgAlpha;
+		}
+
+		@Override
+		public void save() {
+			FarmConfig.save();
+		}
+	};
+
+	public static final HudBox STATS = new HudBox() {
+		@Override
+		public boolean enabled() {
+			return FarmConfig.get().modEnabled && FarmConfig.get().statsHud;
+		}
+
+		@Override
+		public List<List<Seg>> lines() {
+			return statsLines();
+		}
+
+		@Override
+		public float x() {
+			return FarmConfig.get().statsX;
+		}
+
+		@Override
+		public float y() {
+			return FarmConfig.get().statsY;
+		}
+
+		@Override
+		public float scale() {
+			return FarmConfig.get().statsScale;
+		}
+
+		@Override
+		public void setPos(float x, float y) {
+			FarmConfig.get().statsX = x;
+			FarmConfig.get().statsY = y;
+		}
+
+		@Override
+		protected void storeScale(float s) {
+			FarmConfig.get().statsScale = s;
+		}
+
+		@Override
+		public int bgAlpha() {
+			return FarmConfig.get().hudBgAlpha;
+		}
+
+		@Override
+		public void save() {
+			FarmConfig.save();
+		}
+	};
 
 	private FarmHud() {
 	}
 
-	public static boolean enabled(Box b) {
-		FarmConfig c = FarmConfig.get();
-		return b == Box.STATUS ? c.statusHud : c.statsHud;
-	}
-
-	public static void render(GuiGraphicsExtractor g) {
-		Minecraft mc = Minecraft.getInstance();
-		if (mc.player == null || !FarmConfig.get().modEnabled) return;
-		if (mc.gui.screen() instanceof HudEditScreen) return;
-		for (Box b : Box.values()) if (enabled(b)) draw(g, b, false);
-	}
-
-	public static float scale(Box b) {
-		FarmConfig c = FarmConfig.get();
-		return b == Box.STATUS ? c.hudScale : c.statsScale;
-	}
-
-	public static void setScale(Box b, float s) {
-		FarmConfig c = FarmConfig.get();
-		s = Math.round(Math.max(0.5f, Math.min(3f, s)) * 100f) / 100f;
-		if (b == Box.STATUS) c.hudScale = s;
-		else c.statsScale = s;
-	}
-
-	public static void setPos(Box b, float x, float y) {
-		FarmConfig c = FarmConfig.get();
-		if (b == Box.STATUS) {
-			c.hudX = x;
-			c.hudY = y;
-		} else {
-			c.statsX = x;
-			c.statsY = y;
-		}
-	}
-
-	public static int baseWidth(Box b) {
-		return W[b.ordinal()];
-	}
-
-	public static void draw(GuiGraphicsExtractor g, Box box, boolean editing) {
-		Minecraft mc = Minecraft.getInstance();
-		Font font = mc.font;
-		FarmConfig cfg = FarmConfig.get();
-		List<List<Seg>> lines = box == Box.STATUS ? statusLines() : statsLines();
-		int w = 0;
-		for (List<Seg> l : lines) {
-			int lw = 0;
-			for (Seg s : l) lw += font.width(s.t());
-			w = Math.max(w, lw);
-		}
-		int lh = font.lineHeight + 1;
-		W[box.ordinal()] = w + PAD * 2;
-		H[box.ordinal()] = lines.size() * lh + PAD * 2 - 1;
-		float[] b = bounds(box);
-		g.pose().pushMatrix();
-		g.pose().translate(b[0], b[1]);
-		g.pose().scale(scale(box), scale(box));
-		if (cfg.hudBgAlpha > 0) g.fill(0, 0, W[box.ordinal()], H[box.ordinal()], (cfg.hudBgAlpha & 0xFF) << 24);
-		if (editing) g.outline(0, 0, W[box.ordinal()], H[box.ordinal()], 0xFFFFFF55);
-		int y = PAD;
-		for (List<Seg> l : lines) {
-			int x = PAD;
-			for (Seg s : l) {
-				g.text(font, Component.literal(s.t()).getVisualOrderText(), x, y, s.c(), true);
-				x += font.width(s.t());
-			}
-			y += lh;
-		}
-		g.pose().popMatrix();
-	}
-
-	public static float[] bounds(Box box) {
-		Minecraft mc = Minecraft.getInstance();
-		FarmConfig cfg = FarmConfig.get();
-		int sw = mc.getWindow().getGuiScaledWidth(), sh = mc.getWindow().getGuiScaledHeight();
-		float s = scale(box);
-		float w = W[box.ordinal()] * s, h = H[box.ordinal()] * s;
-		float fx = box == Box.STATUS ? cfg.hudX : cfg.statsX;
-		float fy = box == Box.STATUS ? cfg.hudY : cfg.statsY;
-		return new float[] {Math.max(0, Math.min(fx * sw, sw - w)), Math.max(0, Math.min(fy * sh, sh - h)), w, h};
+	public static void register() {
+		AssistHud.register(STATUS);
+		AssistHud.register(STATS);
 	}
 
 	private static List<List<Seg>> statusLines() {

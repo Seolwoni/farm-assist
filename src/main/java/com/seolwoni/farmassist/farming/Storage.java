@@ -9,11 +9,12 @@ import java.util.Map;
 import java.util.Set;
 
 import com.seolwoni.farmassist.config.FarmConfig;
-import com.seolwoni.farmassist.config.FarmConfig.ChestEntry;
+import com.seolwoni.assistcore.storage.ChestEntry;
+import com.seolwoni.assistcore.storage.Chests;
 import com.seolwoni.farmassist.hud.FarmStats;
-import com.seolwoni.farmassist.util.Alerts;
-import com.seolwoni.farmassist.util.Body;
-import com.seolwoni.farmassist.util.Human;
+import com.seolwoni.assistcore.util.Alerts;
+import com.seolwoni.assistcore.util.Body;
+import com.seolwoni.assistcore.util.Human;
 import com.seolwoni.farmassist.util.Inv;
 
 import net.minecraft.client.Minecraft;
@@ -41,43 +42,11 @@ public final class Storage {
 	}
 
 	public static void markLookedAt(Minecraft mc) {
-		FarmConfig cfg = FarmConfig.get();
-		HitResult hit = mc.hitResult;
-		if (!(hit instanceof BlockHitResult bhr) || hit.getType() != HitResult.Type.BLOCK || mc.level == null) {
-			Alerts.actionBar("상자를 바라보고 눌러주세요", 0xFFFF5555);
-			return;
-		}
-		BlockPos pos = bhr.getBlockPos();
-		if (!(mc.level.getBlockEntity(pos) instanceof Container)) {
-			Alerts.actionBar("상자나 통 같은 보관함이 아니에요", 0xFFFF5555);
-			return;
-		}
-		for (int i = 0; i < cfg.chests.size(); i++) {
-			ChestEntry e = cfg.chests.get(i);
-			if (e.x == pos.getX() && e.y == pos.getY() && e.z == pos.getZ()) {
-				cfg.chests.remove(i);
-				FarmConfig.save();
-				Alerts.actionBar("보관 상자 " + (i + 1) + "번 지정 해제", 0xFFFFAA00);
-				Alerts.click();
-				return;
-			}
-		}
-		if (cfg.chests.size() >= 10) {
-			Alerts.actionBar("상자는 10개까지 지정할 수 있어요", 0xFFFF5555);
-			return;
-		}
-		ChestEntry e = new ChestEntry();
-		e.x = pos.getX();
-		e.y = pos.getY();
-		e.z = pos.getZ();
-		cfg.chests.add(e);
-		FarmConfig.save();
-		Alerts.actionBar("보관 상자 " + cfg.chests.size() + "번 지정 (설정 → 보관에서 담을 아이템 지정)", 0xFF55FF55);
-		Alerts.click();
+		Chests.toggleLookedAt(mc, FarmConfig.get().chests, FarmConfig::save);
 	}
 
 	static BlockPos pos(ChestEntry e) {
-		return new BlockPos(e.x, e.y, e.z);
+		return e.pos();
 	}
 
 	/** Inventory indices to keep: tools, real food, and up to seedKeep of each seed type. */
@@ -106,10 +75,7 @@ public final class Storage {
 	}
 
 	static int target(String id, boolean[] full) {
-		List<ChestEntry> chests = FarmConfig.get().chests;
-		for (int i = 0; i < chests.size(); i++) if (!full[i] && chests.get(i).items.contains(id)) return i;
-		for (int i = 0; i < chests.size(); i++) if (!full[i] && chests.get(i).items.isEmpty()) return i;
-		return -1;
+		return Chests.target(FarmConfig.get().chests, id, full);
 	}
 
 	/** Seeds this round planted, that we now have fewer than 16 of. */
@@ -130,8 +96,8 @@ public final class Storage {
 		private String reason = "";
 
 		@Override
-		public boolean skippable() {
-			return false;
+		public int failMode() {
+			return STOP;
 		}
 
 		@Override
@@ -256,9 +222,7 @@ public final class Storage {
 		}
 
 		private static AbstractContainerScreen<?> open(Minecraft mc) {
-			Screen s = mc.gui.screen();
-			if (s instanceof AbstractContainerScreen<?> acs && !(s instanceof InventoryScreen)) return acs;
-			return null;
+			return Chests.openScreen(mc);
 		}
 
 		private boolean depositOne(Minecraft mc, LocalPlayer p, AbstractContainerMenu menu) {

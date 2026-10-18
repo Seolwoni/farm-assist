@@ -1,16 +1,20 @@
 package com.seolwoni.farmassist.gui;
 
+import com.seolwoni.assistcore.gui.PickerScreen;
+
+import com.seolwoni.assistcore.gui.IntSlider;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import com.seolwoni.farmassist.config.FarmConfig;
-import com.seolwoni.farmassist.config.FarmConfig.ChestEntry;
+import com.seolwoni.assistcore.storage.ChestEntry;
 import com.seolwoni.farmassist.config.FarmConfig.FieldEntry;
 import com.seolwoni.farmassist.farming.Farmer;
 import com.seolwoni.farmassist.hud.FarmStats;
-import com.seolwoni.farmassist.hud.HudEditScreen;
+import com.seolwoni.assistcore.hud.HudEditScreen;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
@@ -164,7 +168,7 @@ public class FarmConfigScreen extends Screen {
 			String what = e.items.isEmpty() ? "나머지 전부" : e.items.size() + "종류";
 			addRenderableWidget(Button.builder(Component.literal("담을 것: " + what), b ->
 					this.minecraft.gui.setScreen(new PickerScreen(this, (idx + 1) + "번 상자에 담을 아이템", e.items, false, ITEM_PRESETS,
-							"아무것도 고르지 않으면 나머지를 차례대로 담아요"))).bounds(cx - 20, y, 120, 20).build());
+							"아무것도 고르지 않으면 나머지를 차례대로 담아요", FarmConfig::save))).bounds(cx - 20, y, 120, 20).build());
 			addRenderableWidget(Button.builder(Component.literal("삭제"), b -> {
 				c.chests.remove(e);
 				FarmConfig.save();

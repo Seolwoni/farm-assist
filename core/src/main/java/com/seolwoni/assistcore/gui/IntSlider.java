@@ -1,4 +1,4 @@
-package com.seolwoni.farmassist.gui;
+package com.seolwoni.assistcore.gui;
 
 import java.util.function.IntConsumer;
 

@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.seolwoni.farmassist.config.FarmConfig;
 import com.seolwoni.farmassist.config.FarmConfig.FieldEntry;
-import com.seolwoni.farmassist.util.Alerts;
-import com.seolwoni.farmassist.util.Blocks2;
+import com.seolwoni.assistcore.util.Alerts;
+import com.seolwoni.assistcore.util.Blocks2;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;

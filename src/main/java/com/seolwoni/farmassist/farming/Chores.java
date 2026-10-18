@@ -1,7 +1,7 @@
 package com.seolwoni.farmassist.farming;
 
 import com.seolwoni.farmassist.config.FarmConfig;
-import com.seolwoni.farmassist.util.Human;
+import com.seolwoni.assistcore.util.Human;
 import com.seolwoni.farmassist.util.Inv;
 
 import net.minecraft.client.Minecraft;

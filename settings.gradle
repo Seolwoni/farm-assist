@@ -10,3 +10,5 @@ pluginManagement {
 }
 
 rootProject.name = 'farmassist'
+
+include 'core'

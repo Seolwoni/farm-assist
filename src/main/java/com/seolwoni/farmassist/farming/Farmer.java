@@ -1,19 +1,18 @@
 package com.seolwoni.farmassist.farming;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.seolwoni.assistcore.engine.ActionQueue;
 import com.seolwoni.farmassist.config.FarmConfig;
 import com.seolwoni.farmassist.config.FarmConfig.FieldEntry;
 import com.seolwoni.farmassist.hud.FarmStats;
-import com.seolwoni.farmassist.util.Alerts;
-import com.seolwoni.farmassist.util.Blocks2;
-import com.seolwoni.farmassist.util.Body;
-import com.seolwoni.farmassist.util.Human;
+import com.seolwoni.assistcore.util.Alerts;
+import com.seolwoni.assistcore.util.Blocks2;
+import com.seolwoni.assistcore.util.Body;
+import com.seolwoni.assistcore.util.Human;
 import com.seolwoni.farmassist.util.Inv;
 
 import net.minecraft.client.Minecraft;
@@ -37,24 +36,22 @@ import net.minecraft.world.phys.Vec3;
  * plant it back. After every field is done: store loot, wait, and go again.
  */
 public final class Farmer {
-	public static final int RUN = 0, DONE = 1, FAIL = 2;
+	public static final int RUN = com.seolwoni.assistcore.engine.Action.RUN, DONE = com.seolwoni.assistcore.engine.Action.DONE,
+			FAIL = com.seolwoni.assistcore.engine.Action.FAIL;
 
-	public interface Action {
-		int tick(Minecraft mc, LocalPlayer p);
-
-		/** true = a failure just skips this action instead of stopping everything. */
-		default boolean skippable() {
-			return true;
-		}
-
-		default String failReason() {
-			return "";
+	/** Farm actions: a failure just skips the action unless it says otherwise. */
+	public interface Action extends com.seolwoni.assistcore.engine.Action {
+		@Override
+		default int failMode() {
+			return SKIP;
 		}
 	}
 
 	private enum Phase { ROUND, STORE, WAIT }
 
-	private static final Deque<Action> queue = new ArrayDeque<>();
+	private static final ActionQueue queue = new ActionQueue(a -> {
+		if (a.failMode() != com.seolwoni.assistcore.engine.Action.SKIP) stop("농사를 멈췄어요", a.failReason(), true);
+	});
 	private static Phase phase = Phase.ROUND;
 	private static String status = "꺼짐";
 	private static List<BlockPos> stops = new ArrayList<>();
@@ -99,11 +96,11 @@ public final class Farmer {
 	}
 
 	static void pushFront(List<Action> list) {
-		for (int i = list.size() - 1; i >= 0; i--) queue.addFirst(list.get(i));
+		queue.pushFront(list);
 	}
 
 	static void add(Action a) {
-		queue.addLast(a);
+		queue.add(a);
 	}
 
 	// ------------------------------------------------------------------ start / stop
@@ -184,24 +181,15 @@ public final class Farmer {
 		ticks++;
 		if (phase != Phase.WAIT) FarmStats.tick();
 
-		Action a = queue.peekFirst();
-		if (a != null) {
-			int r = a.tick(mc, p);
-			if (r == DONE) {
-				queue.remove(a);
-			} else if (r == FAIL) {
-				queue.remove(a);
-				if (!a.skippable()) stop("농사를 멈췄어요", a.failReason(), true);
-			}
-			return;
-		}
+		Human.humanLike = cfg.humanDelay;
+		if (queue.tick(mc, p)) return;
 		plan(mc, p, cfg);
 	}
 
 	private static boolean safety(Minecraft mc, LocalPlayer p, FarmConfig cfg) {
 		if (p.isDeadOrDying()) {
 			BlockPos b = p.blockPosition();
-			Alerts.chat("사망 위치: " + b.getX() + ", " + b.getY() + ", " + b.getZ());
+			Alerts.chat("Farm Assist", "사망 위치: " + b.getX() + ", " + b.getY() + ", " + b.getZ());
 			stop("죽었어요", "사망 위치를 채팅에 남겼어요", true);
 			return false;
 		}

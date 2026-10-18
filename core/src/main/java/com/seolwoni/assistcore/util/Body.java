@@ -1,4 +1,4 @@
-package com.seolwoni.farmassist.util;
+package com.seolwoni.assistcore.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -31,7 +31,7 @@ public final class Body {
 		return (float) -Math.toDegrees(Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)));
 	}
 
-	/** Start a new turn: picks a fresh turning speed so every movement looks a little different. */
+	/** Start a new turn: picks a fresh top speed so every movement looks a little different. */
 	public static void newTurn() {
 		turnSpeed = 7f + Human.RANDOM.nextFloat() * 7f;
 	}
@@ -53,7 +53,9 @@ public final class Body {
 			return true;
 		}
 		float accel = Math.max(0.6f, turnSpeed * 0.3f);
-		float want = Math.max(0.6f, Math.min(turnSpeed, (float) Math.sqrt(2f * accel * dist)));
+		// The fastest speed that can still slow down in time for the target.
+		float want = Math.min(turnSpeed, (float) Math.sqrt(2f * accel * dist));
+		want = Math.max(want, 0.6f);
 		if (vel < want) vel = Math.min(want, vel + accel);
 		else vel = Math.max(want, vel - accel * 1.5f);
 		float step = Math.min(vel, dist);
@@ -95,7 +97,7 @@ public final class Body {
 			return true;
 		}
 		float yaw = (float) (Math.toDegrees(Math.atan2(dz, dx)) - 90.0);
-		// Keep roughly the current pitch while walking instead of looking down and back up.
+		// Keep the head roughly where it is while walking, only easing out of extreme angles.
 		float pitch = Math.max(-10f, Math.min(35f, p.getXRot()));
 		turnTo(p, yaw, pitch, 1f);
 		float yawErr = Math.abs(wrap(yaw - p.getYRot()));

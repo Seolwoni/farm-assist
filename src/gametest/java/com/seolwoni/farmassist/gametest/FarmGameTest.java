@@ -58,7 +58,7 @@ public class FarmGameTest implements FabricClientGameTest {
 				c.fields.add(field("밭 2", 12, 0, 20, 8));
 				c.storeEnabled = true;
 				c.chests.clear();
-				FarmConfig.ChestEntry ch = new FarmConfig.ChestEntry();
+				com.seolwoni.assistcore.storage.ChestEntry ch = new com.seolwoni.assistcore.storage.ChestEntry();
 				ch.x = -2;
 				ch.y = Y;
 				ch.z = 4;

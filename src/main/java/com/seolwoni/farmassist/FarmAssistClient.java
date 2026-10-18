@@ -17,7 +17,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -63,7 +62,7 @@ public class FarmAssistClient implements ClientModInitializer {
 			return InteractionResult.FAIL;
 		});
 
-		HudElementRegistry.addLast(id("hud"), (graphics, delta) -> FarmHud.render(graphics));
+		FarmHud.register();
 
 		ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
 			if (FarmConfig.get().running) Farmer.stop(null, null, false);

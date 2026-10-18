@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.seolwoni.assistcore.storage.ChestEntry;
 import com.seolwoni.farmassist.FarmAssistClient;
 
 import net.fabricmc.loader.api.FabricLoader;
@@ -90,11 +91,6 @@ public class FarmConfig {
 		}
 	}
 
-	public static class ChestEntry {
-		public int x, y, z;
-		/** Item ids this chest takes. Empty = overflow chest, filled in order. */
-		public List<String> items = new ArrayList<>();
-	}
 
 	public static FarmConfig get() {
 		return instance;
