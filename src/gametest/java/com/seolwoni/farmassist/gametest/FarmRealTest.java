@@ -43,6 +43,9 @@ public class FarmRealTest implements FabricClientGameTest {
 		try (TestSingleplayerContext sp = RealWorld.create(context)) {
 			sp.getConnection().waitForChunksRender();
 			RealWorld.setup(sp);
+			// Villagers and golems jumping onto farmland trample it too; switch that off so the count shows only what we do.
+			RealWorld.cmd(sp, "gamerule mob_griefing false");
+			RealWorld.cmd(sp, "gamerule mobGriefing false");
 			List<FarmConfig.FieldEntry> fields = new ArrayList<>();
 			BlockPos chest = suite.equals("real-village") ? prepareVillage(context, sp, fields) : prepareTerrace(context, sp, fields);
 			if (chest == null) throw new AssertionError("could not prepare the test: " + failures);
