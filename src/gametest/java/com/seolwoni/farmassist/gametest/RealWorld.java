@@ -32,12 +32,20 @@ final class RealWorld {
 
 	static String suite() {
 		String s = System.getenv("ASSIST_GT");
-		return s == null || s.isBlank() ? "flat" : s.trim();
+		// "...-nopath" runs the same suite with Assist Path switched off (ASSIST_NO_PATH), for comparison.
+		return s == null || s.isBlank() ? "flat" : s.trim().replace("-nopath", "");
 	}
 
+	/** Other fixed seeds, so one lucky world does not hide a problem. */
+	static final String SEED2 = "seolwoni-deep", SEED3 = "seolwoni-sea";
+
 	static TestSingleplayerContext create(ClientGameTestContext context) {
+		return create(context, SEED);
+	}
+
+	static TestSingleplayerContext create(ClientGameTestContext context, String seed) {
 		return context.worldBuilder().setUseConsistentSettings(false).adjustSettings(c -> {
-			c.setSeed(SEED);
+			c.setSeed(seed);
 			c.setGenerateStructures(true);
 			c.setDifficulty(Difficulty.PEACEFUL);
 			c.getGameRules().set(GameRules.ADVANCE_TIME, false, null);
@@ -71,6 +79,25 @@ final class RealWorld {
 		context.waitTicks(40);
 		sp.getConnection().waitForChunksRender();
 		return y;
+	}
+
+	/** The nearest column (spiralling out from x/z) whose ground is dry land, not water or lava: {x, z}. */
+	static int[] dryLand(TestSingleplayerContext sp, int x, int z, int radius) {
+		return sp.getServer().computeOnServer(server -> {
+			var level = server.overworld();
+			for (int r = 0; r <= radius; r += 2) {
+				for (int dx = -r; dx <= r; dx += 2) {
+					for (int dz = -r; dz <= r; dz += 2) {
+						if (Math.max(Math.abs(dx), Math.abs(dz)) != r) continue;
+						int cx = x + dx, cz = z + dz;
+						int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, cx, cz);
+						BlockPos top = new BlockPos(cx, y - 1, cz);
+						if (level.getFluidState(top).isEmpty() && level.getFluidState(top.above()).isEmpty()) return new int[] {cx, cz};
+					}
+				}
+			}
+			return new int[] {x, z};
+		});
 	}
 
 	/** Height of the first free block above the ground (ignoring leaves). */

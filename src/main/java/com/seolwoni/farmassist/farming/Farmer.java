@@ -122,10 +122,14 @@ public final class Farmer {
 		cfg.running = true;
 		FarmConfig.save();
 		Alerts.actionBar("농사 시작: 밭 " + cfg.fields.size() + "개", 0xFF55FF55);
+		com.seolwoni.assistcore.log.UsageLog.start("farm", "밭 " + cfg.fields.size() + "개, 들를 곳 " + stops.size() + "곳, 상자 " + cfg.chests.size() + "개");
 		return true;
 	}
 
 	public static void stop(String title, String sub, boolean alert) {
+		com.seolwoni.farmassist.hud.FarmStats fs = com.seolwoni.farmassist.hud.FarmStats.session;
+		com.seolwoni.assistcore.log.UsageLog.end("farm", title == null ? "직접 껐어요" : title + (sub == null ? "" : " / " + sub), "수확 " + fs.totalHarvest() + ", 바퀴 " + fs.rounds + ", 상자 왕복 " + fs.trips
+				+ "번 | " + com.seolwoni.assistpath.AssistPath.Stats.summary());
 		Minecraft mc = Minecraft.getInstance();
 		FarmConfig cfg = FarmConfig.get();
 		cfg.running = false;
@@ -237,6 +241,7 @@ public final class Farmer {
 			}
 			case STORE -> {
 				phase = Phase.WAIT;
+				com.seolwoni.assistcore.log.UsageLog.event("farm", "한 바퀴 끝: 지금까지 수확 " + com.seolwoni.farmassist.hud.FarmStats.session.totalHarvest() + ", 다음 바퀴까지 " + cfg.waitMinutes + "분");
 				waitUntil = ticks + (long) cfg.waitMinutes * 1200L;
 				nextLook = Human.rand(100, 300);
 				return;
