@@ -171,7 +171,7 @@ public final class Storage {
 					}
 					if (!c.equals(walkerFor)) {
 						walkerFor = c;
-						walker = new com.seolwoni.assistpath.walk.PathWalker(new com.seolwoni.assistpath.goals.GoalNear(c, 2));
+						walker = new com.seolwoni.assistpath.walk.PathWalker(new com.seolwoni.assistpath.goals.GoalNear(c, 2), com.seolwoni.assistpath.PathOptions.WALK_DRY, 6);
 					}
 					if (walker != null) {
 						if (walker.tick(mc, p) == RUN) return RUN;
