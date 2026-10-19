@@ -395,6 +395,18 @@ public final class Farmer {
 			this.quiet = quiet;
 		}
 
+		/** Does the straight line from here to the target pass over (or through) water? */
+		private static boolean crossesWater(Vec3 from, BlockPos to) {
+			double dx = to.getX() + 0.5 - from.x, dz = to.getZ() + 0.5 - from.z;
+			int steps = (int) Math.ceil(Math.sqrt(dx * dx + dz * dz) / 0.3);
+			for (int i = 1; i <= steps; i++) {
+				double t = (double) i / steps;
+				BlockPos c = BlockPos.containing(from.x + dx * t, to.getY(), from.z + dz * t);
+				if (Blocks2.isWater(c) || Blocks2.isWater(c.below())) return true;
+			}
+			return false;
+		}
+
 		@Override
 		public int tick(Minecraft mc, LocalPlayer p) {
 			if (!started) {
@@ -413,6 +425,12 @@ public final class Farmer {
 				int r = walker.tick(mc, p);
 				if (r == RUN) return RUN;
 				walker = null;
+				if (r == FAIL && crossesWater(p.position(), target)) {
+					// No dry way round: walking straight would mean wading through a water channel and jumping out
+					// onto farmland (that tramples it). Leave this spot for now.
+					Body.release(mc);
+					return FAIL;
+				}
 				Body.resetWalk();
 				Body.newTurn();
 				return RUN;
@@ -633,7 +651,8 @@ public final class Farmer {
 						// The seed we just harvested may still be lying on the ground: give it a moment.
 						if (pickupWait++ < 16) return RUN;
 						if (retry) seedShort = true;
-						else missed.add(new Missed(p.blockPosition(), seed, on, face, target));
+						// Feet cell (standing on farmland is 1/16 lower than a full block: blockPosition() would be the farmland itself).
+						else missed.add(new Missed(com.seolwoni.assistpath.walk.PathWalker.feet(p), seed, on, face, target));
 						return DONE;
 					}
 					hit = facePoint(on, face, 0.1);
