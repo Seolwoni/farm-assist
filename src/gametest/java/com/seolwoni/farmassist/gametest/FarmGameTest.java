@@ -40,6 +40,7 @@ public class FarmGameTest implements FabricClientGameTest {
 
 	@Override
 	public void runTest(ClientGameTestContext context) {
+		if (!RealWorld.suite().equals("flat")) return;
 		try (TestSingleplayerContext sp = context.worldBuilder().create()) {
 			sp.getConnection().waitForChunksRender();
 			buildWorld(sp);

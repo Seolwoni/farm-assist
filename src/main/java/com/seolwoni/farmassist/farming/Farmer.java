@@ -293,7 +293,7 @@ public final class Farmer {
 	private static boolean planCollect(Minecraft mc, LocalPlayer p, FarmConfig cfg) {
 		List<BlockPos> stops = new ArrayList<>();
 		for (FieldEntry f : cfg.fields) {
-			AABB box = new AABB(f.minX() - 2, f.y - 1, f.minZ() - 2, f.maxX() + 3, f.y + 3, f.maxZ() + 3);
+			AABB box = new AABB(f.minX() - 2, f.minY() - Field.MARGIN - 1, f.minZ() - 2, f.maxX() + 3, f.maxY() + Field.MARGIN + 3, f.maxZ() + 3);
 			for (Entity e : mc.level.getEntities(p, box)) {
 				if (!(e instanceof net.minecraft.world.entity.item.ItemEntity) || !e.isAlive()) continue;
 				BlockPos at = e.blockPosition();
@@ -454,7 +454,9 @@ public final class Farmer {
 				for (int dz = -1; dz <= 1; dz++) {
 					int x = me.getX() + dx, z = me.getZ() + dz;
 					if (x < field.minX() || x > field.maxX() || z < field.minZ() || z > field.maxZ()) continue;
-					BlockPos pos = new BlockPos(x, field.y, z);
+					Integer ly = Field.layerAt(field, x, z);
+					if (ly == null) continue; // nothing grows in this column (odd-shaped field, path, water)
+					BlockPos pos = new BlockPos(x, ly, z);
 					Crops.Task t = Crops.check(pos);
 					if (t != null) {
 						if (t.seed() != null) counts.merge(t.seed(), 1, Integer::sum);

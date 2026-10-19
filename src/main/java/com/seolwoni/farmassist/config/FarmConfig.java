@@ -62,9 +62,19 @@ public class FarmConfig {
 	public int hudBgAlpha = 110;
 
 	public static class FieldEntry {
-		/** Crop layer corners (the block the crop itself sits in). */
+		/** Crop layer corners (the block the crop itself sits in). {@code y} is the first corner's height. */
 		public int x1, z1, x2, z2, y;
+		/** The second corner's height (fields on a slope or in steps); null for fields marked before 1.4. */
+		public Integer y2;
 		public String name = "";
+
+		public int minY() {
+			return y2 == null ? y : Math.min(y, y2);
+		}
+
+		public int maxY() {
+			return y2 == null ? y : Math.max(y, y2);
+		}
 
 		public int minX() {
 			return Math.min(x1, x2);

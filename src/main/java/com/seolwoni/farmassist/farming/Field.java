@@ -9,6 +9,10 @@ import com.seolwoni.assistcore.util.Alerts;
 import com.seolwoni.assistcore.util.Blocks2;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.AttachedStemBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 /** Field marking (hoe + Shift + right-click) and the walking stops through a field. */
@@ -46,10 +50,12 @@ public final class Field {
 		f.x2 = layer.getX();
 		f.z2 = layer.getZ();
 		f.y = a.getY();
+		f.y2 = layer.getY();
 		f.name = "밭 " + (cfg.fields.size() + 1);
 		cfg.fields.add(f);
 		FarmConfig.save();
-		Alerts.actionBar(f.name + " 지정 완료: " + sx + "x" + sz + " (Y " + f.y + ")", 0xFF55FF55);
+		String ys = f.minY() == f.maxY() ? "Y " + f.y : "Y " + f.minY() + "~" + f.maxY();
+		Alerts.actionBar(f.name + " 지정 완료: " + sx + "x" + sz + " (" + ys + ", 높낮이 ±" + MARGIN + "칸까지 찾아요)", 0xFF55FF55);
 		Alerts.ding();
 	}
 
@@ -73,9 +79,60 @@ public final class Field {
 		return out;
 	}
 
+	/** How far above and below the marked heights a crop layer is still looked for (steps, slopes). */
+	public static final int MARGIN = 3;
+
+	/** Is {@code pos} where a crop of this field sits (the bottom block of a plant, or empty farmland / soul sand)? */
+	static boolean isLayer(BlockPos pos) {
+		BlockState s = Blocks2.state(pos);
+		Block b = s.getBlock();
+		BlockState below = Blocks2.state(pos.below());
+		if (b == Blocks.COCOA) return false;
+		if (Crops.cropName(b) != null || b instanceof StemBlock || b instanceof AttachedStemBlock) {
+			return below.getBlock() != b; // the base of a tall plant (cane, bamboo, cactus)
+		}
+		if ((s.isAir() || s.canBeReplaced() && s.getFluidState().isEmpty()) && (below.is(Blocks.FARMLAND) || below.is(Blocks.SOUL_SAND))) return true;
+		return false;
+	}
+
+	/**
+	 * The crop layer height in column x/z of this field, or null if nothing grows there (fields need not be
+	 * rectangular, nor flat). If several fit, the one closest to the marked heights wins (stacked farms marked
+	 * floor by floor keep to their own floor).
+	 */
+	public static Integer layerAt(FieldEntry f, int x, int z) {
+		Integer best = null;
+		int bestD = Integer.MAX_VALUE;
+		for (int y = f.maxY() + MARGIN; y >= f.minY() - MARGIN; y--) {
+			if (!isLayer(new BlockPos(x, y, z))) continue;
+			int d = y < f.minY() ? f.minY() - y : y > f.maxY() ? y - f.maxY() : 0;
+			if (d < bestD) {
+				bestD = d;
+				best = y;
+			}
+		}
+		return best;
+	}
+
+	/** Some crop layer in the 3x3 around x/z (for a stop in a corner of an odd-shaped field). */
+	private static Integer layerNear(FieldEntry f, int x, int z) {
+		Integer here = layerAt(f, x, z);
+		if (here != null) return here;
+		for (int dx = -1; dx <= 1; dx++) {
+			for (int dz = -1; dz <= 1; dz++) {
+				int cx = x + dx, cz = z + dz;
+				if (cx < f.minX() || cx > f.maxX() || cz < f.minZ() || cz > f.maxZ()) continue;
+				Integer y = layerAt(f, cx, cz);
+				if (y != null) return y;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Standing points: lanes every 3 rows along the longer side, a stop every 3 blocks,
-	 * walked back and forth (snake order). Each stop covers the 3x3 around it.
+	 * walked back and forth (snake order). Each stop covers the 3x3 around it; stops with nothing
+	 * growing around them are left out, and each stands at the height of the crops there.
 	 */
 	public static List<BlockPos> stops(FieldEntry f) {
 		boolean alongX = f.sizeX() >= f.sizeZ();
@@ -88,7 +145,9 @@ public final class Field {
 				int col = colIdx.get(li % 2 == 0 ? ci : colIdx.size() - 1 - ci);
 				int x = alongX ? f.minX() + col : f.minX() + lane;
 				int z = alongX ? f.minZ() + lane : f.minZ() + col;
-				BlockPos p = standableNear(new BlockPos(x, f.y, z), f);
+				Integer y = layerNear(f, x, z);
+				if (y == null) continue;
+				BlockPos p = standableNear(new BlockPos(x, y, z), f);
 				if (p != null) out.add(p);
 			}
 		}
@@ -98,10 +157,12 @@ public final class Field {
 	private static BlockPos standableNear(BlockPos p, FieldEntry f) {
 		if (Crops.standable(p)) return p;
 		int[][] offs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {-1, -1}, {1, -1}, {-1, 1}};
-		for (int[] o : offs) {
-			BlockPos q = p.offset(o[0], 0, o[1]);
-			if (q.getX() < f.minX() - 1 || q.getX() > f.maxX() + 1 || q.getZ() < f.minZ() - 1 || q.getZ() > f.maxZ() + 1) continue;
-			if (Crops.standable(q)) return q;
+		for (int dy : new int[] {0, 1, -1}) {
+			for (int[] o : offs) {
+				BlockPos q = p.offset(o[0], dy, o[1]);
+				if (q.getX() < f.minX() - 1 || q.getX() > f.maxX() + 1 || q.getZ() < f.minZ() - 1 || q.getZ() > f.maxZ() + 1) continue;
+				if (Crops.standable(q)) return q;
+			}
 		}
 		return null;
 	}

@@ -6,7 +6,8 @@
 	"environment": "client",
 	"entrypoints": {
 		"fabric-client-gametest": [
-			"com.seolwoni.farmassist.gametest.FarmGameTest"
+			"com.seolwoni.farmassist.gametest.FarmGameTest",
+			"com.seolwoni.farmassist.gametest.FarmRealTest"
 		]
 	},
 	"depends": {
