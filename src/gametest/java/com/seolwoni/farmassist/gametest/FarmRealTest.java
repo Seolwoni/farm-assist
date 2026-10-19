@@ -113,7 +113,7 @@ public class FarmRealTest implements FabricClientGameTest {
 					context.takeScreenshot(String.format("%s-trample-%d", suite, ticks));
 				}
 				lastFarmland = fl;
-				if (ticks % 1200 == 0) context.takeScreenshot(String.format("%s-%02d-min%d", suite, shots++, ticks / 1200));
+				if (ticks % 600 == 0) context.takeScreenshot(String.format("%s-%03d-s%d", suite, shots++, ticks / 20));
 			}
 			context.takeScreenshot(suite + "-99-end");
 			log.add("ended after " + ticks + " ticks (" + ticks / 20 + " s), running=" + running + " waiting=" + waiting);
