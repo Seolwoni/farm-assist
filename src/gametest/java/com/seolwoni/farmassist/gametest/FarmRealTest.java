@@ -230,6 +230,7 @@ public class FarmRealTest implements FabricClientGameTest {
 		log.add(sp.getServer().computeOnServer(server -> {
 			ServerLevel level = server.overworld();
 			int bells = 0, hay = 0, beds = 0, farmland = 0;
+			List<String> cropSample = new ArrayList<>();
 			for (int x = v.getX() - 72; x <= v.getX() + 72; x++) {
 				for (int z = v.getZ() - 72; z <= v.getZ() + 72; z++) {
 					for (int y = level.getMinY(); y < level.getMaxY(); y += 1) {
@@ -239,10 +240,13 @@ public class FarmRealTest implements FabricClientGameTest {
 						if (st.is(Blocks.HAY_BLOCK)) hay++;
 						if (st.is(net.minecraft.tags.BlockTags.BEDS)) beds++;
 						if (st.is(Blocks.FARMLAND)) farmland++;
+						if (st.getBlock() instanceof CropBlock && cropSample.size() < 6) {
+							cropSample.add(st.getBlock() + " on " + level.getBlockState(new BlockPos(x, y - 1, z)).getBlock() + " at " + x + "," + y + "," + z);
+						}
 					}
 				}
 			}
-			return "debug around the village: bells=" + bells + " hay=" + hay + " beds=" + beds + " farmland=" + farmland
+			return "debug around the village: bells=" + bells + " hay=" + hay + " beds=" + beds + " farmland=" + farmland + " crops=" + cropSample
 					+ " biome=" + level.getBiome(v).unwrapKey().map(Object::toString).orElse("?") + " ground=" + level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, v.getX(), v.getZ());
 		}));
 		for (int i = 0; i < Math.min(2, patches.size()); i++) {
