@@ -72,7 +72,6 @@ public class FarmRealTest implements FabricClientGameTest {
 				ch.y = chest.getY();
 				ch.z = chest.getZ();
 				c.chests.add(ch);
-				c.pace = 1;
 				if (!Farmer.start(mc)) failures.add("Farmer.start returned false");
 				log.add("stops planned: " + Farmer.totalStops());
 			});
@@ -100,7 +99,7 @@ public class FarmRealTest implements FabricClientGameTest {
 			if (!running) failures.add("farmer stopped by itself: " + context.computeOnClient(mc -> Farmer.status()));
 			else if (!waiting) failures.add("round not finished within " + limit + " ticks");
 			final boolean stillRunning = running;
-			int harvested = context.computeOnClient(mc -> {
+			long harvested = context.computeOnClient(mc -> {
 				FarmStats st = FarmStats.session;
 				log.add("rounds=" + st.rounds + " trips=" + st.trips + " harvested=" + st.totalHarvest());
 				for (Map.Entry<String, FarmStats.Entry> e : st.crops.entrySet()) log.add("  harvested " + e.getKey() + ": " + e.getValue().count);
