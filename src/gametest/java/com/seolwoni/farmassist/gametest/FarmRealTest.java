@@ -185,16 +185,16 @@ public class FarmRealTest implements FabricClientGameTest {
 			return null;
 		}
 		log.add("village at " + v.getX() + ", " + v.getZ());
-		RealWorld.goTo(context, sp, v.getX(), v.getZ(), 80);
+		RealWorld.goTo(context, sp, v.getX(), v.getZ(), 88);
 		context.waitTicks(60);
 		// Patches of farmland (water channels inside count as part of the patch).
 		List<List<BlockPos>> patches = sp.getServer().computeOnServer(server -> {
 			ServerLevel level = server.overworld();
 			Set<BlockPos> farmland = new HashSet<>();
 			int cy = level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, v.getX(), v.getZ());
-			for (int x = v.getX() - 64; x <= v.getX() + 64; x++) {
-				for (int z = v.getZ() - 64; z <= v.getZ() + 64; z++) {
-					for (int y = cy - 12; y <= cy + 12; y++) {
+			for (int x = v.getX() - 72; x <= v.getX() + 72; x++) {
+				for (int z = v.getZ() - 72; z <= v.getZ() + 72; z++) {
+					for (int y = cy - 24; y <= cy + 24; y++) {
 						BlockPos p = new BlockPos(x, y, z);
 						if (level.getBlockState(p).is(Blocks.FARMLAND)) farmland.add(p);
 					}

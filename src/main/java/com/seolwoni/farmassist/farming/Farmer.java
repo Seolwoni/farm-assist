@@ -455,7 +455,14 @@ public final class Farmer {
 					int x = me.getX() + dx, z = me.getZ() + dz;
 					if (x < field.minX() || x > field.maxX() || z < field.minZ() || z > field.maxZ()) continue;
 					Integer ly = Field.layerAt(field, x, z);
-					if (ly == null) continue; // nothing grows in this column (odd-shaped field, path, water)
+					if (ly == null) {
+						// Nothing grows on the ground here (odd-shaped field, path, water, a jungle log): cocoa may still hang here.
+						for (int y = field.minY() - 1; y <= field.maxY() + 3; y++) {
+							Crops.Task c = Crops.checkCocoa(new BlockPos(x, y, z));
+							if (c != null) queueTask(todo, c);
+						}
+						continue;
+					}
 					BlockPos pos = new BlockPos(x, ly, z);
 					Crops.Task t = Crops.check(pos);
 					if (t != null) {
