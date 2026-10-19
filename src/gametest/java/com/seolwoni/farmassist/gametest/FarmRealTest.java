@@ -227,6 +227,20 @@ public class FarmRealTest implements FabricClientGameTest {
 		});
 		log.add("farmland patches: " + patches.stream().map(List::size).toList());
 		context.takeScreenshot(suite + "-village");
+		BlockPos me = context.computeOnClient(mc -> mc.player.blockPosition());
+		log.add("blocks near the player " + me.toShortString() + ": " + sp.getServer().computeOnServer(server -> {
+			java.util.Map<String, Integer> hist = new java.util.TreeMap<>();
+			for (int dx = -8; dx <= 8; dx++) {
+				for (int dz = -8; dz <= 8; dz++) {
+					for (int dy = -3; dy <= 2; dy++) {
+						var st = server.overworld().getBlockState(me.offset(dx, dy, dz));
+						if (st.isAir()) continue;
+						hist.merge(net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(st.getBlock()).getPath(), 1, Integer::sum);
+					}
+				}
+			}
+			return hist.toString();
+		}));
 		log.add(sp.getServer().computeOnServer(server -> {
 			ServerLevel level = server.overworld();
 			int bells = 0, hay = 0, beds = 0, farmland = 0;
