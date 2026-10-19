@@ -77,19 +77,39 @@ public class FarmRealTest implements FabricClientGameTest {
 			});
 			context.takeScreenshot(suite + "-00-start");
 
-			int ticks = 0, shots = 1;
+			int ticks = 0, shots = 1, lastFarmland = before[0];
 			final int limit = 20 * 60 * 20;
 			boolean running = true, waiting = false;
 			while (running && !waiting && ticks < limit) {
 				long t0 = System.nanoTime();
-				context.waitTicks(40);
-				timing.add(System.nanoTime() - t0);
-				ticks += 40;
+				context.waitTicks(10);
+				timing.add((System.nanoTime() - t0) * 4);
+				ticks += 10;
 				final int t = ticks;
-				log.add(context.computeOnClient(mc -> "t=" + t + " pos=" + mc.player.blockPosition().toShortString()
+				if (ticks % 40 == 0) log.add(context.computeOnClient(mc -> "t=" + t + " pos=" + mc.player.blockPosition().toShortString()
 						+ " status=" + Farmer.status() + " progress=" + Farmer.progress() + "/" + Farmer.totalStops()));
 				running = context.computeOnClient(mc -> FarmConfig.get().running);
 				waiting = context.computeOnClient(mc -> Farmer.waitSecondsLeft() >= 0);
+				int fl = count(sp, fields)[0];
+				if (fl < lastFarmland) {
+					// Farmland turned to dirt just now: note where the player was and what it did.
+					List<String> gone = sp.getServer().computeOnServer(server -> {
+						List<String> out = new ArrayList<>();
+						for (FarmConfig.FieldEntry f : fields)
+							for (int x = f.minX(); x <= f.maxX(); x++)
+								for (int z = f.minZ(); z <= f.maxZ(); z++)
+									for (int y = f.minY() - 2; y <= f.maxY(); y++) {
+										BlockPos q = new BlockPos(x, y, z);
+										if (server.overworld().getBlockState(q).is(Blocks.DIRT) && server.overworld().getBlockState(q.above()).isAir()
+												&& !server.overworld().getBlockState(q.below()).isAir()) out.add(q.toShortString());
+									}
+						return out;
+					});
+					log.add("  !! farmland lost (" + lastFarmland + " -> " + fl + ") near " + gone + "; player " + context.computeOnClient(mc -> String.format("%.2f %.2f %.2f onGround=%s fall=%.2f vy=%.2f inWater=%s",
+							mc.player.getX(), mc.player.getY(), mc.player.getZ(), mc.player.onGround(), mc.player.fallDistance, mc.player.getDeltaMovement().y, mc.player.isInWater())));
+					context.takeScreenshot(String.format("%s-trample-%d", suite, ticks));
+				}
+				lastFarmland = fl;
 				if (ticks % 1200 == 0) context.takeScreenshot(String.format("%s-%02d-min%d", suite, shots++, ticks / 1200));
 			}
 			context.takeScreenshot(suite + "-99-end");
