@@ -108,6 +108,12 @@ public final class Farmer {
 	// ------------------------------------------------------------------ start / stop
 
 	public static boolean start(Minecraft mc) {
+		{
+			var dc = com.seolwoni.farmassist.config.FarmConfig.get();
+			com.seolwoni.assistpath.defense.Defense.config.enabled = dc.mobMode <= 1;
+			com.seolwoni.assistpath.defense.Defense.config.attack = dc.mobMode == 1;
+			com.seolwoni.assistpath.defense.Defense.reset(mc);
+		}
 		FarmConfig cfg = FarmConfig.get();
 		if (mc.player == null || mc.level == null) return false;
 		if (cfg.fields.isEmpty()) {
@@ -185,6 +191,15 @@ public final class Farmer {
 		}
 		if (mc.isPaused()) return;
 		if (!safety(mc, p, cfg)) return;
+		// Defense (Assist Path): while a creeper, an arrow or a mob needs dealing with, it has the controls.
+		if (cfg.mobMode <= 1 && com.seolwoni.assistpath.defense.Defense.guard(mc, p)) {
+			String why = com.seolwoni.assistpath.defense.Defense.giveUp();
+			if (why != null) {
+				com.seolwoni.assistpath.defense.Defense.reset(mc);
+				stop(why, "싸우기를 켜거나 안전한 곳에서 다시 켜주세요", true);
+			}
+			return;
+		}
 		ticks++;
 		if (phase != Phase.WAIT) FarmStats.tick();
 
@@ -208,7 +223,7 @@ public final class Farmer {
 			stop("체력이 낮아요", "농사를 멈췄어요", true);
 			return false;
 		}
-		if (cfg.stopOnMob && ticks % 10 == 0) {
+		if (cfg.mobMode == 2 && ticks % 10 == 0) {
 			AABB box = p.getBoundingBox().inflate(cfg.mobRange);
 			for (Entity e : mc.level.getEntities(p, box)) {
 				if (e instanceof Enemy && e.isAlive()) {

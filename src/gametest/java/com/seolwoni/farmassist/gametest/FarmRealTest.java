@@ -119,6 +119,7 @@ public class FarmRealTest implements FabricClientGameTest {
 			log.add("ended after " + ticks + " ticks (" + ticks / 20 + " s), running=" + running + " waiting=" + waiting);
 			log.add(timing.summary() + ", server tick " + String.format("%.1f", RealWorld.mspt(sp)) + " ms");
 			log.add(com.seolwoni.assistpath.AssistPath.Stats.summary());
+			log.add(context.computeOnClient(mc -> com.seolwoni.assistpath.defense.Defense.Stats.summary() + " giveUp=" + com.seolwoni.assistpath.defense.Defense.giveUp() + " night=" + RealWorld.night()));
 			if (!running) failures.add("farmer stopped by itself: " + context.computeOnClient(mc -> Farmer.status()));
 			else if (!waiting) failures.add("round not finished within " + limit + " ticks");
 			final boolean stillRunning = running;
