@@ -226,6 +226,25 @@ public class FarmRealTest implements FabricClientGameTest {
 			return out;
 		});
 		log.add("farmland patches: " + patches.stream().map(List::size).toList());
+		context.takeScreenshot(suite + "-village");
+		log.add(sp.getServer().computeOnServer(server -> {
+			ServerLevel level = server.overworld();
+			int bells = 0, hay = 0, beds = 0, farmland = 0;
+			for (int x = v.getX() - 72; x <= v.getX() + 72; x++) {
+				for (int z = v.getZ() - 72; z <= v.getZ() + 72; z++) {
+					for (int y = level.getMinY(); y < level.getMaxY(); y += 1) {
+						if (y < 40 || y > 140) continue;
+						BlockState st = level.getBlockState(new BlockPos(x, y, z));
+						if (st.is(Blocks.BELL)) bells++;
+						if (st.is(Blocks.HAY_BLOCK)) hay++;
+						if (st.is(net.minecraft.tags.BlockTags.BEDS)) beds++;
+						if (st.is(Blocks.FARMLAND)) farmland++;
+					}
+				}
+			}
+			return "debug around the village: bells=" + bells + " hay=" + hay + " beds=" + beds + " farmland=" + farmland
+					+ " biome=" + level.getBiome(v).unwrapKey().map(Object::toString).orElse("?") + " ground=" + level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, v.getX(), v.getZ());
+		}));
 		for (int i = 0; i < Math.min(2, patches.size()); i++) {
 			List<BlockPos> patch = patches.get(i);
 			if (patch.size() < 12) break;

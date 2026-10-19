@@ -126,6 +126,14 @@ public final class Field {
 				if (y != null) return y;
 			}
 		}
+		// No ground crops around, but cocoa on a log is still worth the stop.
+		for (int dx = -1; dx <= 1; dx++) {
+			for (int dz = -1; dz <= 1; dz++) {
+				for (int y = f.minY() - 1; y <= f.maxY() + 3; y++) {
+					if (Blocks2.state(new BlockPos(x + dx, y, z + dz)).is(Blocks.COCOA)) return Math.max(f.minY(), Math.min(f.maxY(), y));
+				}
+			}
+		}
 		return null;
 	}
 
