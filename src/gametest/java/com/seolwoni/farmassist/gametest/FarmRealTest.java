@@ -148,6 +148,30 @@ public class FarmRealTest implements FabricClientGameTest {
 				return n;
 			});
 			log.add("items in chest = " + stored + ", drops left lying in the fields = " + lying);
+			// Loss count over a wider area (measured only, not a failure): drops that rolled off the fields or into water.
+			String wide = sp.getServer().computeOnServer(server -> {
+				int n = 0, stacks = 0;
+				StringBuilder where = new StringBuilder();
+				java.util.Set<net.minecraft.world.entity.Entity> seen = new java.util.HashSet<>();
+				for (FarmConfig.FieldEntry f : fields) {
+					for (net.minecraft.world.entity.item.ItemEntity ie : server.overworld().getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class,
+							new net.minecraft.world.phys.AABB(f.minX() - 8, f.minY() - 8, f.minZ() - 8, f.maxX() + 9, f.maxY() + 8, f.maxZ() + 9))) {
+						if (!seen.add(ie)) continue;
+						n += ie.getItem().getCount();
+						stacks++;
+						if (where.length() < 400) where.append(" ").append(ie.getItem().getCount()).append("x")
+								.append(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(ie.getItem().getItem()).getPath())
+								.append("@").append(ie.blockPosition().toShortString());
+					}
+				}
+				return n + " items in " + stacks + " stacks within 8 blocks of the fields" + (where.length() > 0 ? " [" + where.toString().trim() + "]" : "");
+			});
+			int held = context.computeOnClient(mc -> {
+				int n = 0;
+				for (int i = 0; i < mc.player.getInventory().getContainerSize(); i++) n += mc.player.getInventory().getItem(i).getCount();
+				return n;
+			});
+			log.add("LOSS: harvested " + harvested + " crops, chest " + stored + " items, inventory " + held + " items (all), on the ground: " + wide);
 			// Villagers farm too, so the ripe count is only an upper bound; most of it must be ours.
 			if (harvested < before[1] * 0.6) failures.add("harvested only " + harvested + " of " + before[1] + " ripe crops");
 			if (after[1] > Math.max(2, before[1] / 10)) failures.add(after[1] + " ripe crops left in the fields");
