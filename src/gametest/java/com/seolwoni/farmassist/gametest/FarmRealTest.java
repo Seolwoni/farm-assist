@@ -45,7 +45,7 @@ public class FarmRealTest implements FabricClientGameTest {
 			RealWorld.setup(sp);
 			List<FarmConfig.FieldEntry> fields = new ArrayList<>();
 			BlockPos chest = suite.equals("real-village") ? prepareVillage(context, sp, fields) : prepareTerrace(context, sp, fields);
-			if (chest == null) return;
+			if (chest == null) throw new AssertionError("could not prepare the test: " + failures);
 			RealWorld.cmd(sp, "give @a minecraft:bread 16");
 			RealWorld.cmd(sp, "effect give @a minecraft:saturation infinite 0 true");
 			context.waitTicks(40);
@@ -179,21 +179,42 @@ public class FarmRealTest implements FabricClientGameTest {
 
 	/** Village farms: find the farmland patches, ripen them, mark each like a player would. Returns the chest. */
 	private BlockPos prepareVillage(ClientGameTestContext context, TestSingleplayerContext sp, List<FarmConfig.FieldEntry> fields) {
-		BlockPos v = RealWorld.findVillage(sp, BlockPos.ZERO);
+		// Like a player looking for a village with farms: the nearest ones first, skipping those without farmland.
+		BlockPos v = null;
+		BlockPos[] from = {BlockPos.ZERO, new BlockPos(600, 64, 0), new BlockPos(0, 64, 600), new BlockPos(-600, 64, 0), new BlockPos(0, 64, -600)};
+		for (BlockPos f0 : from) {
+			BlockPos cand = RealWorld.findVillage(sp, f0);
+			if (cand == null) continue;
+			RealWorld.goTo(context, sp, cand.getX(), cand.getZ(), 88);
+			int farmland = sp.getServer().computeOnServer(server -> {
+				ServerLevel level = server.overworld();
+				int n = 0, cy = level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, cand.getX(), cand.getZ());
+				for (int x = cand.getX() - 72; x <= cand.getX() + 72; x++)
+					for (int z = cand.getZ() - 72; z <= cand.getZ() + 72; z++)
+						for (int y = cy - 24; y <= cy + 24; y++) if (level.getBlockState(new BlockPos(x, y, z)).is(Blocks.FARMLAND)) n++;
+				return n;
+			});
+			log.add("village at " + cand.getX() + ", " + cand.getZ() + ": farmland " + farmland);
+			RealWorld.cmd(sp, "forceload remove all");
+			if (farmland >= 20) {
+				v = cand;
+				break;
+			}
+		}
 		if (v == null) {
-			failures.add("no village found near spawn (seed " + RealWorld.SEED + ")");
+			failures.add("no village with farms found (seed " + RealWorld.SEED + ")");
 			return null;
 		}
-		log.add("village at " + v.getX() + ", " + v.getZ());
-		RealWorld.goTo(context, sp, v.getX(), v.getZ(), 88);
+		final BlockPos vf = v;
+		RealWorld.goTo(context, sp, vf.getX(), vf.getZ(), 88);
 		context.waitTicks(60);
 		// Patches of farmland (water channels inside count as part of the patch).
 		List<List<BlockPos>> patches = sp.getServer().computeOnServer(server -> {
 			ServerLevel level = server.overworld();
 			Set<BlockPos> farmland = new HashSet<>();
-			int cy = level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, v.getX(), v.getZ());
-			for (int x = v.getX() - 72; x <= v.getX() + 72; x++) {
-				for (int z = v.getZ() - 72; z <= v.getZ() + 72; z++) {
+			int cy = level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, vf.getX(), vf.getZ());
+			for (int x = vf.getX() - 72; x <= vf.getX() + 72; x++) {
+				for (int z = vf.getZ() - 72; z <= vf.getZ() + 72; z++) {
 					for (int y = cy - 24; y <= cy + 24; y++) {
 						BlockPos p = new BlockPos(x, y, z);
 						if (level.getBlockState(p).is(Blocks.FARMLAND)) farmland.add(p);
@@ -245,8 +266,8 @@ public class FarmRealTest implements FabricClientGameTest {
 			ServerLevel level = server.overworld();
 			int bells = 0, hay = 0, beds = 0, farmland = 0;
 			List<String> cropSample = new ArrayList<>();
-			for (int x = v.getX() - 72; x <= v.getX() + 72; x++) {
-				for (int z = v.getZ() - 72; z <= v.getZ() + 72; z++) {
+			for (int x = vf.getX() - 72; x <= vf.getX() + 72; x++) {
+				for (int z = vf.getZ() - 72; z <= vf.getZ() + 72; z++) {
 					for (int y = level.getMinY(); y < level.getMaxY(); y += 1) {
 						if (y < 40 || y > 140) continue;
 						BlockState st = level.getBlockState(new BlockPos(x, y, z));
@@ -261,7 +282,7 @@ public class FarmRealTest implements FabricClientGameTest {
 				}
 			}
 			return "debug around the village: bells=" + bells + " hay=" + hay + " beds=" + beds + " farmland=" + farmland + " crops=" + cropSample
-					+ " biome=" + level.getBiome(v).unwrapKey().map(Object::toString).orElse("?") + " ground=" + level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, v.getX(), v.getZ());
+					+ " biome=" + level.getBiome(vf).unwrapKey().map(Object::toString).orElse("?") + " ground=" + level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, vf.getX(), vf.getZ());
 		}));
 		for (int i = 0; i < Math.min(2, patches.size()); i++) {
 			List<BlockPos> patch = patches.get(i);
