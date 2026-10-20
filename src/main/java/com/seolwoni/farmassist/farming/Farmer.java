@@ -209,6 +209,8 @@ public final class Farmer {
 		if (phase != Phase.WAIT) FarmStats.tick();
 
 		Human.humanLike = cfg.humanDelay;
+		Human.sprintJump = false; // landing from a jump tramples farmland
+		Human.pace = 1; // run on long stretches between fields and to the chest
 		if (queue.tick(mc, p)) return;
 		plan(mc, p, cfg);
 	}
