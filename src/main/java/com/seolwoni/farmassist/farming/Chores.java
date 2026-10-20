@@ -23,9 +23,16 @@ final class Chores {
 		}
 		boolean store = cfg.storeEnabled && !cfg.chests.isEmpty();
 		if (Inv.freeSlots(p) <= 1) {
-			if (store) {
+			// A shulker box or an ender chest carried along: store right here.
+			var box = cfg.storeEnabled ? com.seolwoni.assistcore.storage.PortableStorage.trip("farm", p, cfg.storeMode, i -> !Storage.keepSet(p).contains(i), null, true) : null;
+			if (box != null) {
+				Farmer.status(box.label());
+				Farmer.addCore(box);
+			} else if (store) {
 				Farmer.status("인벤토리가 차서 보관하러 가는 중");
 				Farmer.add(new Storage.TripAction());
+			} else if (cfg.storeEnabled && cfg.storeMode != com.seolwoni.assistcore.storage.PortableStorage.CHEST) {
+				Farmer.stop("인벤토리 가득 참!", com.seolwoni.assistcore.storage.PortableStorage.whyNone(p, cfg.storeMode), true);
 			} else {
 				Farmer.stop("인벤토리 가득 참!", "보관 상자를 지정하면 자동으로 보관해요", true);
 			}

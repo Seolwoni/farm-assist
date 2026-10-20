@@ -101,6 +101,11 @@ public final class Farmer {
 		queue.pushFront(list);
 	}
 
+	/** A shared Assist Core action (storing into a carried box). */
+	static void addCore(com.seolwoni.assistcore.engine.Action a) {
+		queue.add(a);
+	}
+
 	static void add(Action a) {
 		queue.add(a);
 	}
