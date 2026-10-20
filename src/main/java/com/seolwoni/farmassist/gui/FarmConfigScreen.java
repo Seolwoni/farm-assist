@@ -55,7 +55,7 @@ public class FarmConfigScreen extends Screen {
 			if (!c().modEnabled && c().running) Farmer.stop("모드를 껐어요", null, false);
 			FarmConfig.save();
 			rebuildWidgets();
-		}).bounds(left, 22, 150, 20).build());
+		}).bounds(left, 22, 100, 20).build());
 		Button run = Button.builder(Component.literal(c().running ? "농사 정지" : "농사 시작").withColor(c().running ? 0xFFFF7777 : 0xFF77FF77), b -> {
 			if (c().running) {
 				Farmer.stop("농사를 멈췄어요", null, false);
@@ -63,7 +63,7 @@ public class FarmConfigScreen extends Screen {
 			} else if (Farmer.start(this.minecraft)) {
 				this.minecraft.gui.setScreen(null);
 			}
-		}).bounds(right, 22, 150, 20).build();
+		}).bounds(left + 105, 22, 100, 20).build();
 		run.active = c().modEnabled && this.minecraft.player != null;
 		addRenderableWidget(run);
 
@@ -88,7 +88,7 @@ public class FarmConfigScreen extends Screen {
 			default -> hud(left, right, y);
 		}
 		addRenderableWidget(Button.builder(Component.literal("완료"), b -> onClose())
-				.bounds(cx - 75, this.height - 26, 150, 20).build());
+				.bounds(left + 210, 22, 100, 20).build()); // up top: at the bottom it covered the last rows on small screens
 	}
 
 	private void basic(int left, int right, int y) {
