@@ -60,7 +60,7 @@ public final class Storage {
 			ItemStack s = inv.getItem(i);
 			if (s.isEmpty()) continue;
 			if (Inv.isSeed(s)) seeds.computeIfAbsent(s.getItem(), k -> new ArrayList<>()).add(i);
-			else if (Inv.isTool(s) || Inv.isFood(s)) keep.add(i);
+			else if (Inv.isTool(s) || Inv.isFood(s) || s.is(net.minecraft.world.item.Items.GOLDEN_CARROT) || s.is(net.minecraft.world.item.Items.GOLDEN_APPLE) || s.is(net.minecraft.world.item.Items.ENCHANTED_GOLDEN_APPLE)) keep.add(i); // golden food: never eaten automatically, but kept
 		}
 		for (List<Integer> list : seeds.values()) {
 			list.sort(Comparator.comparingInt((Integer i) -> inv.getItem(i).getCount()).reversed());
