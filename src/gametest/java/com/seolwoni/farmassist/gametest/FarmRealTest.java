@@ -36,10 +36,23 @@ public class FarmRealTest implements FabricClientGameTest {
 	private final RealWorld.Timing timing = new RealWorld.Timing();
 	private String suite;
 
+	private static final java.util.concurrent.ConcurrentLinkedDeque<String> history = new java.util.concurrent.ConcurrentLinkedDeque<>();
+
 	@Override
 	public void runTest(ClientGameTestContext context) {
-		suite = RealWorld.suite();
+		suite = RealWorld.suite().replaceAll("-[23]$", ""); // "-2", "-3": the same place again
 		if (!suite.equals("real-village") && !suite.equals("real-terrace")) return;
+		// Every tick: where the player is and what it does, so a trampled field can be traced to the move that did it.
+		net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK.register(mc -> {
+			if (mc.player == null) return;
+			var pl = mc.player;
+			var under = pl.level().getBlockState(pl.blockPosition().below());
+			var at = pl.level().getBlockState(pl.blockPosition());
+			String b = at.is(Blocks.FARMLAND) ? "on farmland" : under.is(Blocks.FARMLAND) ? "over farmland" : "";
+			history.addLast(String.format("%.2f %.2f %.2f ground=%s fall=%.2f vy=%.2f jump=%s sprint=%s %s | %s", pl.getX(), pl.getY(), pl.getZ(), pl.onGround(),
+					pl.fallDistance, pl.getDeltaMovement().y, mc.options.keyJump.isDown(), pl.isSprinting(), b, Farmer.status()));
+			while (history.size() > 30) history.removeFirst();
+		});
 		try (TestSingleplayerContext sp = RealWorld.create(context)) {
 			sp.getConnection().waitForChunksRender();
 			RealWorld.setup(sp);
@@ -111,6 +124,7 @@ public class FarmRealTest implements FabricClientGameTest {
 					log.add("  !! farmland lost (" + lastFarmland + " -> " + fl + ") near " + gone + "; player " + context.computeOnClient(mc -> String.format("%.2f %.2f %.2f onGround=%s fall=%.2f vy=%.2f inWater=%s",
 							mc.player.getX(), mc.player.getY(), mc.player.getZ(), mc.player.onGround(), mc.player.fallDistance, mc.player.getDeltaMovement().y, mc.player.isInWater())));
 					context.takeScreenshot(String.format("%s-trample-%d", suite, ticks));
+					for (String h : context.computeOnClient(mc -> new ArrayList<>(history))) log.add("      tick: " + h);
 				}
 				lastFarmland = fl;
 				if (ticks % 600 == 0) context.takeScreenshot(String.format("%s-%03d-s%d", suite, shots++, ticks / 20));
