@@ -124,13 +124,13 @@ public final class FarmHud {
 		FarmConfig cfg = FarmConfig.get();
 		List<List<Seg>> out = new ArrayList<>();
 		out.add(List.of(new Seg("Farm Assist", GOLD)));
-		out.add(List.of(new Seg("상태: ", GOLD), new Seg(Farmer.status(), cfg.running ? GREEN : RED)));
-		out.add(List.of(new Seg("밭: ", GOLD), new Seg(cfg.fields.size() + "개", WHITE),
-				new Seg("  상자: ", GOLD), new Seg(cfg.chests.size() + "개", WHITE)));
+		out.add(List.of(new Seg(com.seolwoni.assistcore.i18n.Tr.t("상태: "), GOLD), new Seg(Farmer.status(), cfg.running ? GREEN : RED)));
+		out.add(List.of(new Seg(com.seolwoni.assistcore.i18n.Tr.t("밭: "), GOLD), new Seg(cfg.fields.size() + com.seolwoni.assistcore.i18n.Tr.t("개"), WHITE),
+				new Seg(com.seolwoni.assistcore.i18n.Tr.t("  상자: "), GOLD), new Seg(cfg.chests.size() + com.seolwoni.assistcore.i18n.Tr.t("개"), WHITE)));
 		if (cfg.running && Farmer.totalStops() > 0 && Farmer.waitSecondsLeft() < 0) {
-			out.add(List.of(new Seg("진행: ", GOLD), new Seg(Math.min(Farmer.progress(), Farmer.totalStops()) + "/" + Farmer.totalStops(), WHITE)));
+			out.add(List.of(new Seg(com.seolwoni.assistcore.i18n.Tr.t("진행: "), GOLD), new Seg(Math.min(Farmer.progress(), Farmer.totalStops()) + "/" + Farmer.totalStops(), WHITE)));
 		}
-		if (Field.hasPending()) out.add(List.of(new Seg("반대쪽 모서리를 지정하세요", 0xFF55FFFF)));
+		if (Field.hasPending()) out.add(List.of(new Seg(com.seolwoni.assistcore.i18n.Tr.t("반대쪽 모서리를 지정하세요"), 0xFF55FFFF)));
 		return out;
 	}
 
@@ -138,12 +138,12 @@ public final class FarmHud {
 		FarmConfig cfg = FarmConfig.get();
 		FarmStats st = FarmStats.shown();
 		List<List<Seg>> out = new ArrayList<>();
-		out.add(List.of(new Seg("수확 통계 ", GOLD), new Seg(cfg.statsTotals ? "(누적)" : "(이번 세션)", GRAY)));
+		out.add(List.of(new Seg(com.seolwoni.assistcore.i18n.Tr.t("수확 통계 "), GOLD), new Seg(cfg.statsTotals ? com.seolwoni.assistcore.i18n.Tr.t("(누적)") : com.seolwoni.assistcore.i18n.Tr.t("(이번 세션)"), GRAY)));
 		long total = st.totalHarvest();
 		long now = System.currentTimeMillis();
 		List<Map.Entry<String, FarmStats.Entry>> list = new ArrayList<>(st.crops.entrySet());
 		list.sort(Comparator.comparingLong((Map.Entry<String, FarmStats.Entry> e) -> e.getValue().count).reversed());
-		if (list.isEmpty()) out.add(List.of(new Seg("  아직 수확한 게 없어요", GRAY)));
+		if (list.isEmpty()) out.add(List.of(new Seg(com.seolwoni.assistcore.i18n.Tr.t("  아직 수확한 게 없어요"), GRAY)));
 		for (Map.Entry<String, FarmStats.Entry> e : list) {
 			FarmStats.Entry v = e.getValue();
 			out.add(List.of(new Seg(ago(now - v.lastMs) + " | ", GRAY),
@@ -153,9 +153,9 @@ public final class FarmHud {
 		}
 		double hours = st.ticks / 20.0 / 3600.0;
 		long perHour = hours > 0.01 ? Math.round(total / hours) : 0;
-		out.add(List.of(new Seg("총 수확: ", GOLD), new Seg(total + "", WHITE), new Seg(" [" + perHour + "/시간]", GRAY)));
-		out.add(List.of(new Seg("바퀴: ", GOLD), new Seg(st.rounds + "", WHITE), new Seg("  보관: ", GOLD), new Seg(st.trips + "번", WHITE)));
-		out.add(List.of(new Seg("농사 시간: ", GOLD), new Seg(time(st.ticks / 20), WHITE)));
+		out.add(List.of(new Seg(com.seolwoni.assistcore.i18n.Tr.t("총 수확: "), GOLD), new Seg(total + "", WHITE), new Seg(" [" + perHour + com.seolwoni.assistcore.i18n.Tr.t("/시간]"), GRAY)));
+		out.add(List.of(new Seg(com.seolwoni.assistcore.i18n.Tr.t("바퀴: "), GOLD), new Seg(st.rounds + "", WHITE), new Seg(com.seolwoni.assistcore.i18n.Tr.t("  보관: "), GOLD), new Seg(st.trips + com.seolwoni.assistcore.i18n.Tr.t("번"), WHITE)));
+		out.add(List.of(new Seg(com.seolwoni.assistcore.i18n.Tr.t("농사 시간: "), GOLD), new Seg(time(st.ticks / 20), WHITE)));
 		return out;
 	}
 

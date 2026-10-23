@@ -78,18 +78,18 @@ public class FarmStats {
 
 	public static String label(String crop) {
 		return switch (crop) {
-			case "wheat" -> "밀";
-			case "carrots" -> "당근";
-			case "potatoes" -> "감자";
-			case "beetroots" -> "비트";
-			case "nether_wart" -> "네더 사마귀";
-			case "sugar_cane" -> "사탕수수";
-			case "bamboo" -> "대나무";
-			case "pumpkin" -> "호박";
-			case "melon" -> "수박";
-			case "cocoa" -> "코코아";
-			case "cactus" -> "선인장";
-			case "sweet_berry_bush" -> "달콤한 열매";
+			case "wheat" -> com.seolwoni.assistcore.i18n.Tr.t("밀");
+			case "carrots" -> com.seolwoni.assistcore.i18n.Tr.t("당근");
+			case "potatoes" -> com.seolwoni.assistcore.i18n.Tr.t("감자");
+			case "beetroots" -> com.seolwoni.assistcore.i18n.Tr.t("비트");
+			case "nether_wart" -> com.seolwoni.assistcore.i18n.Tr.t("네더 사마귀");
+			case "sugar_cane" -> com.seolwoni.assistcore.i18n.Tr.t("사탕수수");
+			case "bamboo" -> com.seolwoni.assistcore.i18n.Tr.t("대나무");
+			case "pumpkin" -> com.seolwoni.assistcore.i18n.Tr.t("호박");
+			case "melon" -> com.seolwoni.assistcore.i18n.Tr.t("수박");
+			case "cocoa" -> com.seolwoni.assistcore.i18n.Tr.t("코코아");
+			case "cactus" -> com.seolwoni.assistcore.i18n.Tr.t("선인장");
+			case "sweet_berry_bush" -> com.seolwoni.assistcore.i18n.Tr.t("달콤한 열매");
 			default -> crop;
 		};
 	}

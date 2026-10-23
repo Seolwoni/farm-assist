@@ -50,10 +50,10 @@ public final class Farmer {
 	private enum Phase { ROUND, STORE, WAIT }
 
 	private static final ActionQueue queue = new ActionQueue(a -> {
-		if (a.failMode() != com.seolwoni.assistcore.engine.Action.SKIP) stop("농사를 멈췄어요", a.failReason(), true);
+		if (a.failMode() != com.seolwoni.assistcore.engine.Action.SKIP) stop(com.seolwoni.assistcore.i18n.Tr.t("농사를 멈췄어요"), a.failReason(), true);
 	});
 	private static Phase phase = Phase.ROUND;
-	private static String status = "꺼짐";
+	private static String status = com.seolwoni.assistcore.i18n.Tr.t("꺼짐");
 	private static List<BlockPos> stops = new ArrayList<>();
 	private static List<Integer> stopField = new ArrayList<>();
 	private static int stopIndex;
@@ -122,7 +122,7 @@ public final class Farmer {
 		FarmConfig cfg = FarmConfig.get();
 		if (mc.player == null || mc.level == null) return false;
 		if (cfg.fields.isEmpty()) {
-			Alerts.title("밭이 없어요", "괭이를 들고 Shift + 우클릭으로 밭 모서리를 지정하세요", 0xFFFF5555);
+			Alerts.title(com.seolwoni.assistcore.i18n.Tr.t("밭이 없어요"), com.seolwoni.assistcore.i18n.Tr.t("괭이를 들고 Shift + 우클릭으로 밭 모서리를 지정하세요"), 0xFFFF5555);
 			Alerts.warning();
 			return false;
 		}
@@ -132,15 +132,15 @@ public final class Farmer {
 		nextPause = Human.rand(1500, 4000);
 		cfg.running = true;
 		FarmConfig.save();
-		Alerts.actionBar("농사 시작: 밭 " + cfg.fields.size() + "개", 0xFF55FF55);
-		com.seolwoni.assistcore.log.UsageLog.start("farm", "밭 " + cfg.fields.size() + "개, 들를 곳 " + stops.size() + "곳, 상자 " + cfg.chests.size() + "개");
+		Alerts.actionBar(com.seolwoni.assistcore.i18n.Tr.t("농사 시작: 밭 ") + cfg.fields.size() + com.seolwoni.assistcore.i18n.Tr.t("개"), 0xFF55FF55);
+		com.seolwoni.assistcore.log.UsageLog.start("farm", com.seolwoni.assistcore.i18n.Tr.t("밭 ") + cfg.fields.size() + com.seolwoni.assistcore.i18n.Tr.t("개, 들를 곳 ") + stops.size() + com.seolwoni.assistcore.i18n.Tr.t("곳, 상자 ") + cfg.chests.size() + com.seolwoni.assistcore.i18n.Tr.t("개"));
 		return true;
 	}
 
 	public static void stop(String title, String sub, boolean alert) {
 		com.seolwoni.farmassist.hud.FarmStats fs = com.seolwoni.farmassist.hud.FarmStats.session;
-		com.seolwoni.assistcore.log.UsageLog.end("farm", title == null ? "직접 껐어요" : title + (sub == null ? "" : " / " + sub), "수확 " + fs.totalHarvest() + ", 바퀴 " + fs.rounds + ", 상자 왕복 " + fs.trips
-				+ "번 | " + com.seolwoni.assistpath.AssistPath.Stats.summary());
+		com.seolwoni.assistcore.log.UsageLog.end("farm", title == null ? com.seolwoni.assistcore.i18n.Tr.t("직접 껐어요") : title + (sub == null ? "" : " / " + sub), com.seolwoni.assistcore.i18n.Tr.t("수확 ") + fs.totalHarvest() + com.seolwoni.assistcore.i18n.Tr.t(", 바퀴 ") + fs.rounds + com.seolwoni.assistcore.i18n.Tr.t(", 상자 왕복 ") + fs.trips
+				+ com.seolwoni.assistcore.i18n.Tr.t("번 | ") + com.seolwoni.assistpath.AssistPath.Stats.summary());
 		Minecraft mc = Minecraft.getInstance();
 		FarmConfig cfg = FarmConfig.get();
 		cfg.running = false;
@@ -152,7 +152,7 @@ public final class Farmer {
 		if (mc.player != null && mc.gui.screen() instanceof AbstractContainerScreen<?> s && !(s instanceof InventoryScreen)) {
 			mc.player.closeContainer();
 		}
-		status("꺼짐");
+		status(com.seolwoni.assistcore.i18n.Tr.t("꺼짐"));
 		if (title != null) {
 			if (alert) {
 				Alerts.title(title, sub, 0xFFFF5555);
@@ -202,7 +202,7 @@ public final class Farmer {
 			String why = com.seolwoni.assistpath.defense.Defense.giveUp();
 			if (why != null) {
 				com.seolwoni.assistpath.defense.Defense.reset(mc);
-				stop(why, "싸우기를 켜거나 안전한 곳에서 다시 켜주세요", true);
+				stop(why, com.seolwoni.assistcore.i18n.Tr.t("싸우기를 켜거나 안전한 곳에서 다시 켜주세요"), true);
 			}
 			return;
 		}
@@ -219,23 +219,23 @@ public final class Farmer {
 	private static boolean safety(Minecraft mc, LocalPlayer p, FarmConfig cfg) {
 		if (p.isDeadOrDying()) {
 			BlockPos b = p.blockPosition();
-			Alerts.chat("Farm Assist", "사망 위치: " + b.getX() + ", " + b.getY() + ", " + b.getZ());
-			stop("죽었어요", "사망 위치를 채팅에 남겼어요", true);
+			Alerts.chat("Farm Assist", com.seolwoni.assistcore.i18n.Tr.t("사망 위치: ") + b.getX() + ", " + b.getY() + ", " + b.getZ());
+			stop(com.seolwoni.assistcore.i18n.Tr.t("죽었어요"), com.seolwoni.assistcore.i18n.Tr.t("사망 위치를 채팅에 남겼어요"), true);
 			return false;
 		}
 		if (p.isInLava() || p.isOnFire()) {
-			stop("위험! 불이나 용암", "농사를 멈췄어요", true);
+			stop(com.seolwoni.assistcore.i18n.Tr.t("위험! 불이나 용암"), com.seolwoni.assistcore.i18n.Tr.t("농사를 멈췄어요"), true);
 			return false;
 		}
 		if (p.getHealth() <= cfg.minHealth) {
-			stop("체력이 낮아요", "농사를 멈췄어요", true);
+			stop(com.seolwoni.assistcore.i18n.Tr.t("체력이 낮아요"), com.seolwoni.assistcore.i18n.Tr.t("농사를 멈췄어요"), true);
 			return false;
 		}
 		if (cfg.mobMode == 2 && ticks % 10 == 0) {
 			AABB box = p.getBoundingBox().inflate(cfg.mobRange);
 			for (Entity e : mc.level.getEntities(p, box)) {
 				if (e instanceof Enemy && e.isAlive()) {
-					stop("몹이 다가와요", e.getName().getString() + " 근처에 있어요", true);
+					stop(com.seolwoni.assistcore.i18n.Tr.t("몹이 다가와요"), e.getName().getString() + com.seolwoni.assistcore.i18n.Tr.t(" 근처에 있어요"), true);
 					return false;
 				}
 			}
@@ -249,7 +249,7 @@ public final class Farmer {
 		switch (phase) {
 			case WAIT -> {
 				long left = waitUntil - ticks;
-				status("다음 바퀴까지 " + Math.max(0, left / 20 / 60) + "분 " + Math.max(0, left / 20 % 60) + "초");
+				status(com.seolwoni.assistcore.i18n.Tr.t("다음 바퀴까지 ") + Math.max(0, left / 20 / 60) + com.seolwoni.assistcore.i18n.Tr.t("분 ") + Math.max(0, left / 20 % 60) + com.seolwoni.assistcore.i18n.Tr.t("초"));
 				// Look around a little now and then while waiting.
 				if (--nextLook <= 0) {
 					nextLook = Human.rand(200, 600);
@@ -264,7 +264,7 @@ public final class Farmer {
 			}
 			case STORE -> {
 				phase = Phase.WAIT;
-				com.seolwoni.assistcore.log.UsageLog.event("farm", "한 바퀴 끝: 지금까지 수확 " + com.seolwoni.farmassist.hud.FarmStats.session.totalHarvest() + ", 다음 바퀴까지 " + cfg.waitMinutes + "분");
+				com.seolwoni.assistcore.log.UsageLog.event("farm", com.seolwoni.assistcore.i18n.Tr.t("한 바퀴 끝: 지금까지 수확 ") + com.seolwoni.farmassist.hud.FarmStats.session.totalHarvest() + com.seolwoni.assistcore.i18n.Tr.t(", 다음 바퀴까지 ") + cfg.waitMinutes + com.seolwoni.assistcore.i18n.Tr.t("분"));
 				waitUntil = ticks + (long) cfg.waitMinutes * 1200L;
 				nextLook = Human.rand(100, 300);
 				return;
@@ -276,7 +276,7 @@ public final class Farmer {
 		if (--nextPause <= 0) {
 			nextPause = Human.rand(1500, 4000);
 			add(new WaitAction(Human.rand(30, 100)));
-			status("잠깐 쉬는 중");
+			status(com.seolwoni.assistcore.i18n.Tr.t("잠깐 쉬는 중"));
 			return;
 		}
 		if (Chores.plan(mc, p, cfg)) return;
@@ -290,7 +290,7 @@ public final class Farmer {
 			// Go back once to the spots that could not be replanted (the seeds are in the inventory by now).
 			retryDone = true;
 			if (!missed.isEmpty()) {
-				status("못 심은 곳 다시 심는 중 (" + missed.size() + "곳)");
+				status(com.seolwoni.assistcore.i18n.Tr.t("못 심은 곳 다시 심는 중 (") + missed.size() + com.seolwoni.assistcore.i18n.Tr.t("곳)"));
 				List<Missed> list = new ArrayList<>(missed);
 				missed.clear();
 				for (Missed m : list) {
@@ -304,7 +304,7 @@ public final class Farmer {
 			// Round done: store, then wait.
 			phase = Phase.STORE;
 			if (cfg.storeEnabled && !cfg.chests.isEmpty()) {
-				status("상자에 보관하러 가는 중");
+				status(com.seolwoni.assistcore.i18n.Tr.t("상자에 보관하러 가는 중"));
 				add(new Storage.TripAction());
 			}
 			return;
@@ -312,7 +312,7 @@ public final class Farmer {
 		int i = stopIndex++;
 		BlockPos stop = stops.get(i);
 		int field = stopField.get(i);
-		status("밭 " + (field + 1) + " 도는 중 (" + (i + 1) + "/" + stops.size() + ")");
+		status(com.seolwoni.assistcore.i18n.Tr.t("밭 ") + (field + 1) + com.seolwoni.assistcore.i18n.Tr.t(" 도는 중 (") + (i + 1) + "/" + stops.size() + ")");
 		add(new WalkAction(stop));
 		add(new HarvestAction(FarmConfig.get().fields.get(field), field));
 	}
@@ -344,7 +344,7 @@ public final class Farmer {
 			}
 		}
 		if (stops.isEmpty()) return false;
-		status("떨어진 수확물 줍는 중");
+		status(com.seolwoni.assistcore.i18n.Tr.t("떨어진 수확물 줍는 중"));
 		BlockPos from = p.blockPosition();
 		while (!stops.isEmpty()) {
 			final BlockPos fr = from;
@@ -357,7 +357,7 @@ public final class Farmer {
 	}
 
 	static void walkFailed() {
-		if (++walkFails >= 6) stop("길이 막혔어요", "밭 사이에 막힌 곳이 있는지 확인해주세요", true);
+		if (++walkFails >= 6) stop(com.seolwoni.assistcore.i18n.Tr.t("길이 막혔어요"), com.seolwoni.assistcore.i18n.Tr.t("밭 사이에 막힌 곳이 있는지 확인해주세요"), true);
 	}
 
 	static void walkOk() {
@@ -542,7 +542,7 @@ public final class Farmer {
 				}
 			}
 			if (!todo.isEmpty()) {
-				status("수확하는 중");
+				status(com.seolwoni.assistcore.i18n.Tr.t("수확하는 중"));
 				pushFront(todo);
 				return RUN;
 			}

@@ -17,7 +17,7 @@ final class Chores {
 
 	static boolean plan(Minecraft mc, LocalPlayer p, FarmConfig cfg) {
 		if (cfg.autoEat && p.getFoodData().getFoodLevel() <= cfg.eatThreshold && Inv.count(p, Inv::isFood) > 0) {
-			Farmer.status("먹는 중");
+			Farmer.status(com.seolwoni.assistcore.i18n.Tr.t("먹는 중"));
 			Farmer.add(new EatAction());
 			return true;
 		}
@@ -29,12 +29,12 @@ final class Chores {
 				Farmer.status(box.label());
 				Farmer.addCore(box);
 			} else if (store) {
-				Farmer.status("인벤토리가 차서 보관하러 가는 중");
+				Farmer.status(com.seolwoni.assistcore.i18n.Tr.t("인벤토리가 차서 보관하러 가는 중"));
 				Farmer.add(new Storage.TripAction());
 			} else if (cfg.storeEnabled && cfg.storeMode != com.seolwoni.assistcore.storage.PortableStorage.CHEST) {
-				Farmer.stop("인벤토리 가득 참!", com.seolwoni.assistcore.storage.PortableStorage.whyNone(p, cfg.storeMode), true);
+				Farmer.stop(com.seolwoni.assistcore.i18n.Tr.t("인벤토리 가득 참!"), com.seolwoni.assistcore.storage.PortableStorage.whyNone(p, cfg.storeMode), true);
 			} else {
-				Farmer.stop("인벤토리 가득 참!", "보관 상자를 지정하면 자동으로 보관해요", true);
+				Farmer.stop(com.seolwoni.assistcore.i18n.Tr.t("인벤토리 가득 참!"), com.seolwoni.assistcore.i18n.Tr.t("보관 상자를 지정하면 자동으로 보관해요"), true);
 			}
 			return true;
 		}
@@ -42,7 +42,7 @@ final class Chores {
 		if (Farmer.seedShort && store && !seedTripDone) {
 			seedTripDone = true;
 			Farmer.seedShort = false;
-			Farmer.status("씨앗 가지러 가는 중");
+			Farmer.status(com.seolwoni.assistcore.i18n.Tr.t("씨앗 가지러 가는 중"));
 			Farmer.add(new Storage.TripAction());
 			return true;
 		}

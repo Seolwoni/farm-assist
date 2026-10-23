@@ -31,7 +31,7 @@ public final class Field {
 		BlockPos layer = plant ? clicked : clicked.above();
 		if (pending == null) {
 			pending = layer;
-			Alerts.actionBar("첫 번째 모서리 지정: " + layer.getX() + ", " + layer.getZ() + " — 반대쪽 모서리를 Shift + 우클릭하세요", 0xFF55FFFF);
+			Alerts.actionBar(com.seolwoni.assistcore.i18n.Tr.t("첫 번째 모서리 지정: ") + layer.getX() + ", " + layer.getZ() + com.seolwoni.assistcore.i18n.Tr.t(" — 반대쪽 모서리를 Shift + 우클릭하세요"), 0xFF55FFFF);
 			Alerts.click();
 			return;
 		}
@@ -39,7 +39,7 @@ public final class Field {
 		pending = null;
 		int sx = Math.abs(a.getX() - layer.getX()) + 1, sz = Math.abs(a.getZ() - layer.getZ()) + 1;
 		if (sx > MAX_SIZE || sz > MAX_SIZE) {
-			Alerts.actionBar("밭이 너무 커요 (최대 " + MAX_SIZE + "x" + MAX_SIZE + ")", 0xFFFF5555);
+			Alerts.actionBar(com.seolwoni.assistcore.i18n.Tr.t("밭이 너무 커요 (최대 ") + MAX_SIZE + "x" + MAX_SIZE + ")", 0xFFFF5555);
 			Alerts.warning();
 			return;
 		}
@@ -51,11 +51,11 @@ public final class Field {
 		f.z2 = layer.getZ();
 		f.y = a.getY();
 		f.y2 = layer.getY();
-		f.name = "밭 " + (cfg.fields.size() + 1);
+		f.name = com.seolwoni.assistcore.i18n.Tr.t("밭 ") + (cfg.fields.size() + 1);
 		cfg.fields.add(f);
 		FarmConfig.save();
 		String ys = f.minY() == f.maxY() ? "Y " + f.y : "Y " + f.minY() + "~" + f.maxY();
-		Alerts.actionBar(f.name + " 지정 완료: " + sx + "x" + sz + " (" + ys + ", 높낮이 ±" + MARGIN + "칸까지 찾아요)", 0xFF55FF55);
+		Alerts.actionBar(f.name + com.seolwoni.assistcore.i18n.Tr.t(" 지정 완료: ") + sx + "x" + sz + " (" + ys + com.seolwoni.assistcore.i18n.Tr.t(", 높낮이 ±") + MARGIN + com.seolwoni.assistcore.i18n.Tr.t("칸까지 찾아요)"), 0xFF55FF55);
 		Alerts.ding();
 	}
 

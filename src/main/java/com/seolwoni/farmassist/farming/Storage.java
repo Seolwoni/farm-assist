@@ -137,17 +137,17 @@ public final class Storage {
 					for (int i = 0; i < cfg.chests.size(); i++) if (cfg.chests.get(i).items.isEmpty()) order.add(i);
 					idx = 0;
 					stage = 1;
-					Farmer.status("상자에 보관하는 중");
+					Farmer.status(com.seolwoni.assistcore.i18n.Tr.t("상자에 보관하는 중"));
 					return Farmer.RUN;
 				}
 				case 1 -> {
 					while (idx < order.size() && !hasWork(p, order.get(idx))) idx++;
 					if (idx >= order.size()) {
 						if (Inv.freeSlots(p) <= 1) {
-							Farmer.stop("보관 상자가 가득 찼어요", "상자를 비우거나 더 지정해주세요", true);
+							Farmer.stop(com.seolwoni.assistcore.i18n.Tr.t("보관 상자가 가득 찼어요"), com.seolwoni.assistcore.i18n.Tr.t("상자를 비우거나 더 지정해주세요"), true);
 							return Farmer.RUN;
 						}
-						Alerts.actionBar("보관 완료 (" + moved + "칸)", 0xFF55FF55);
+						Alerts.actionBar(com.seolwoni.assistcore.i18n.Tr.t("보관 완료 (") + moved + com.seolwoni.assistcore.i18n.Tr.t("칸)"), 0xFF55FF55);
 						FarmStats.trip();
 						return Farmer.DONE;
 					}
@@ -187,7 +187,7 @@ public final class Storage {
 					Body.walkTo(p, c);
 					if (Body.walkTicks() > limit) {
 						Body.release(mc);
-						reason = "보관 상자까지 갈 수 없어요";
+						reason = com.seolwoni.assistcore.i18n.Tr.t("보관 상자까지 갈 수 없어요");
 						return Farmer.FAIL;
 					}
 					return Farmer.RUN;
@@ -207,7 +207,7 @@ public final class Storage {
 						return Farmer.RUN;
 					}
 					if (--waitTicks <= 0) {
-						reason = "상자를 열지 못했어요";
+						reason = com.seolwoni.assistcore.i18n.Tr.t("상자를 열지 못했어요");
 						return Farmer.FAIL;
 					}
 					return Farmer.RUN;
