@@ -1,0 +1,7 @@
+flat: success
+real-village: success
+real-terrace: success
+real-terrace-2: success
+real-terrace-3: success
+real-terrace-nopath: failure
+real-village-night: success

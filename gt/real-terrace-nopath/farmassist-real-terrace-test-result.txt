@@ -1,0 +1,210 @@
+RESULT: FAIL (1)
+  FAIL farmland trampled: 72 -> 68
+
+plains at 32, -32, ground 91
+terraces: steps at crop layer y 91, 92, 93; chest at 29, 91, -28
+before: farmland=72 ripe=72 crops=72
+field 계단식 밭: x 32..40, z -32..-24, y 91..93
+stops planned: 8
+t=40 pos=33, 90, -31 status=수확하는 중 progress=1/8
+t=80 pos=33, 90, -31 status=수확하는 중 progress=1/8
+t=120 pos=33, 90, -31 status=수확하는 중 progress=1/8
+t=160 pos=33, 90, -31 status=수확하는 중 progress=1/8
+t=200 pos=33, 90, -31 status=수확하는 중 progress=1/8
+t=240 pos=34, 90, -31 status=밭 1 도는 중 (2/8) progress=2/8
+t=280 pos=36, 90, -31 status=수확하는 중 progress=2/8
+t=320 pos=36, 90, -31 status=수확하는 중 progress=2/8
+t=360 pos=36, 90, -31 status=수확하는 중 progress=2/8
+t=400 pos=36, 90, -31 status=수확하는 중 progress=2/8
+t=440 pos=36, 90, -31 status=밭 1 도는 중 (3/8) progress=3/8
+t=480 pos=39, 90, -31 status=수확하는 중 progress=3/8
+t=520 pos=39, 90, -31 status=수확하는 중 progress=3/8
+t=560 pos=39, 90, -31 status=수확하는 중 progress=3/8
+t=600 pos=39, 90, -31 status=수확하는 중 progress=3/8
+t=640 pos=39, 90, -31 status=수확하는 중 progress=3/8
+  !! farmland lost (72 -> 71) near [39, 90, -30]; player 39.82 91.42 -29.30 onGround=false fall=0.00 vy=0.33 inWater=false
+      tick: 39.58 90.94 -30.51 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 수확하는 중
+      tick: 39.58 90.94 -30.51 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 수확하는 중
+      tick: 39.58 90.94 -30.51 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 수확하는 중
+      tick: 39.58 90.94 -30.51 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 수확하는 중
+      tick: 39.58 90.94 -30.51 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 수확하는 중
+      tick: 39.58 90.94 -30.51 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 수확하는 중
+      tick: 39.58 90.94 -30.51 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 수확하는 중
+      tick: 39.58 90.94 -30.51 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 수확하는 중
+      tick: 39.58 90.94 -30.51 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 수확하는 중
+      tick: 39.58 90.94 -30.51 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 수확하는 중
+      tick: 39.58 90.94 -30.51 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 수확하는 중
+      tick: 39.58 90.94 -30.51 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 밭 1 도는 중 (4/8)
+      tick: 39.58 90.94 -30.51 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 밭 1 도는 중 (4/8)
+      tick: 39.58 90.94 -30.51 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 밭 1 도는 중 (4/8)
+      tick: 39.58 90.94 -30.51 ground=true fall=0.00 vy=-0.08 jump=true sprint=false on farmland | 밭 1 도는 중 (4/8)
+      tick: 39.63 91.36 -30.43 ground=false fall=0.00 vy=0.33 jump=false sprint=false over farmland | 밭 1 도는 중 (4/8)
+      tick: 39.67 91.69 -30.36 ground=false fall=0.00 vy=0.25 jump=false sprint=false over farmland | 밭 1 도는 중 (4/8)
+      tick: 39.70 91.94 -30.29 ground=false fall=0.00 vy=0.16 jump=false sprint=false over farmland | 밭 1 도는 중 (4/8)
+      tick: 39.73 92.10 -30.20 ground=false fall=0.00 vy=0.08 jump=false sprint=false  | 밭 1 도는 중 (4/8)
+      tick: 39.76 92.19 -30.10 ground=false fall=0.00 vy=0.00 jump=false sprint=false  | 밭 1 도는 중 (4/8)
+      tick: 39.78 92.19 -29.99 ground=false fall=0.00 vy=-0.08 jump=false sprint=false  | 밭 1 도는 중 (4/8)
+      tick: 39.80 92.11 -29.86 ground=false fall=0.08 vy=-0.15 jump=false sprint=false  | 밭 1 도는 중 (4/8)
+      tick: 39.81 91.96 -29.73 ground=false fall=0.23 vy=-0.23 jump=false sprint=false over farmland | 밭 1 도는 중 (4/8)
+      tick: 39.82 91.73 -29.60 ground=false fall=0.46 vy=-0.30 jump=false sprint=false over farmland | 밭 1 도는 중 (4/8)
+      tick: 39.83 91.43 -29.45 ground=false fall=0.76 vy=-0.37 jump=false sprint=false over farmland | 밭 1 도는 중 (4/8)
+      tick: 39.83 91.06 -29.30 ground=false fall=1.13 vy=-0.44 jump=false sprint=false over farmland | 밭 1 도는 중 (4/8)
+      tick: 39.83 90.94 -29.30 ground=true fall=0.00 vy=-0.08 jump=true sprint=false on farmland | 밭 1 도는 중 (4/8)
+      tick: 39.82 91.36 -29.30 ground=false fall=0.00 vy=0.33 jump=false sprint=false over farmland | 밭 1 도는 중 (4/8)
+      tick: 39.80 91.75 -29.30 ground=false fall=0.00 vy=0.25 jump=false sprint=false  | 밭 1 도는 중 (4/8)
+      tick: 39.79 92.00 -29.28 ground=false fall=0.00 vy=0.16 jump=false sprint=false  | 밭 1 도는 중 (4/8)
+t=680 pos=39, 91, -29 status=밭 1 도는 중 (4/8) progress=4/8
+t=720 pos=39, 91, -28 status=수확하는 중 progress=4/8
+t=760 pos=39, 91, -28 status=수확하는 중 progress=4/8
+t=800 pos=39, 91, -28 status=수확하는 중 progress=4/8
+t=840 pos=39, 91, -28 status=수확하는 중 progress=4/8
+t=880 pos=39, 91, -28 status=수확하는 중 progress=4/8
+t=920 pos=36, 91, -28 status=수확하는 중 progress=5/8
+t=960 pos=36, 91, -28 status=수확하는 중 progress=5/8
+t=1000 pos=36, 91, -28 status=수확하는 중 progress=5/8
+t=1040 pos=36, 91, -28 status=수확하는 중 progress=5/8
+t=1080 pos=36, 91, -28 status=수확하는 중 progress=5/8
+t=1120 pos=33, 91, -28 status=수확하는 중 progress=6/8
+t=1160 pos=33, 91, -28 status=수확하는 중 progress=6/8
+t=1200 pos=33, 91, -28 status=수확하는 중 progress=6/8
+t=1240 pos=33, 91, -28 status=수확하는 중 progress=6/8
+t=1280 pos=33, 91, -28 status=수확하는 중 progress=6/8
+t=1320 pos=33, 92, -25 status=수확하는 중 progress=7/8
+t=1360 pos=33, 92, -25 status=수확하는 중 progress=7/8
+t=1400 pos=33, 92, -25 status=수확하는 중 progress=7/8
+t=1440 pos=33, 92, -25 status=수확하는 중 progress=7/8
+t=1480 pos=33, 92, -25 status=수확하는 중 progress=7/8
+t=1520 pos=33, 92, -25 status=수확하는 중 progress=7/8
+t=1560 pos=36, 92, -25 status=밭 1 도는 중 (8/8) progress=8/8
+t=1600 pos=36, 92, -25 status=수확하는 중 progress=8/8
+t=1640 pos=36, 92, -25 status=수확하는 중 progress=8/8
+t=1680 pos=36, 92, -25 status=수확하는 중 progress=8/8
+t=1720 pos=36, 92, -25 status=수확하는 중 progress=8/8
+t=1760 pos=36, 92, -25 status=떨어진 수확물 줍는 중 progress=8/8
+  !! farmland lost (71 -> 70) near [36, 91, -28, 39, 90, -30]; player 36.10 92.00 -27.94 onGround=true fall=0.00 vy=-0.08 inWater=false
+      tick: 36.63 92.94 -24.52 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.63 92.94 -24.52 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.63 92.94 -24.52 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.63 92.94 -24.52 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.63 92.94 -24.52 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.63 92.94 -24.52 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.63 92.94 -24.52 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.63 92.94 -24.52 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.63 92.94 -24.52 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.68 92.94 -24.60 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.75 92.94 -24.73 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.81 92.94 -24.90 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.86 92.94 -25.09 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.88 92.94 -25.29 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.88 92.94 -25.50 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.85 92.94 -25.71 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.80 92.94 -25.91 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.74 92.94 -26.12 ground=true fall=0.00 vy=-0.08 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+      tick: 36.67 92.94 -26.32 ground=true fall=0.00 vy=-0.08 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+      tick: 36.61 92.86 -26.52 ground=false fall=0.08 vy=-0.16 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+      tick: 36.56 92.70 -26.65 ground=false fall=0.23 vy=-0.23 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+      tick: 36.52 92.47 -26.79 ground=false fall=0.46 vy=-0.30 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+      tick: 36.47 92.17 -26.93 ground=false fall=0.77 vy=-0.38 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+      tick: 36.42 91.94 -27.08 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.33 91.94 -27.31 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.26 92.00 -27.52 ground=true fall=0.00 vy=-0.08 jump=false sprint=false  | 떨어진 수확물 줍는 중
+      tick: 36.18 92.00 -27.73 ground=true fall=0.00 vy=-0.08 jump=false sprint=false  | 떨어진 수확물 줍는 중
+      tick: 36.10 92.00 -27.94 ground=true fall=0.00 vy=-0.08 jump=false sprint=false  | 떨어진 수확물 줍는 중
+      tick: 36.02 92.00 -28.14 ground=true fall=0.00 vy=-0.08 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+      tick: 35.95 92.00 -28.35 ground=true fall=0.00 vy=-0.08 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+t=1800 pos=35, 90, -30 status=떨어진 수확물 줍는 중 progress=8/8
+  !! farmland lost (70 -> 69) near [35, 90, -30, 36, 91, -28, 39, 90, -30]; player 35.51 90.94 -31.58 onGround=true fall=0.00 vy=-0.08 inWater=false
+      tick: 36.33 91.94 -27.31 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 36.26 92.00 -27.52 ground=true fall=0.00 vy=-0.08 jump=false sprint=false  | 떨어진 수확물 줍는 중
+      tick: 36.18 92.00 -27.73 ground=true fall=0.00 vy=-0.08 jump=false sprint=false  | 떨어진 수확물 줍는 중
+      tick: 36.10 92.00 -27.94 ground=true fall=0.00 vy=-0.08 jump=false sprint=false  | 떨어진 수확물 줍는 중
+      tick: 36.02 92.00 -28.14 ground=true fall=0.00 vy=-0.08 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+      tick: 35.95 92.00 -28.35 ground=true fall=0.00 vy=-0.08 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+      tick: 35.87 91.94 -28.55 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 35.80 91.94 -28.75 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 35.72 91.94 -28.95 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 35.64 91.94 -29.15 ground=true fall=0.00 vy=-0.08 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+      tick: 35.56 91.94 -29.35 ground=true fall=0.00 vy=-0.08 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+      tick: 35.52 91.86 -29.46 ground=false fall=0.08 vy=-0.16 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+      tick: 35.50 91.70 -29.52 ground=false fall=0.23 vy=-0.23 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+      tick: 35.47 91.47 -29.58 ground=false fall=0.46 vy=-0.30 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+      tick: 35.45 91.17 -29.63 ground=false fall=0.77 vy=-0.38 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+      tick: 35.44 90.94 -29.67 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 35.42 90.94 -29.71 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 35.37 91.00 -29.83 ground=true fall=0.00 vy=-0.08 jump=false sprint=false  | 떨어진 수확물 줍는 중
+      tick: 35.32 91.00 -29.98 ground=true fall=0.00 vy=-0.08 jump=false sprint=false  | 떨어진 수확물 줍는 중
+      tick: 35.29 91.00 -30.17 ground=true fall=0.00 vy=-0.08 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+      tick: 35.29 91.00 -30.36 ground=true fall=0.00 vy=-0.08 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+      tick: 35.31 90.94 -30.57 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 35.34 90.94 -30.77 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 35.37 90.94 -30.98 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 35.42 90.94 -31.19 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 35.47 90.94 -31.40 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 35.49 90.94 -31.52 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 35.51 90.94 -31.58 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 35.52 90.94 -31.61 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 떨어진 수확물 줍는 중
+      tick: 35.53 91.00 -31.73 ground=true fall=0.00 vy=-0.08 jump=false sprint=false over farmland | 떨어진 수확물 줍는 중
+t=1840 pos=37, 90, -32 status=떨어진 수확물 줍는 중 progress=8/8
+t=1880 pos=38, 91, -30 status=떨어진 수확물 줍는 중 progress=8/8
+t=1920 pos=41, 91, -31 status=떨어진 수확물 줍는 중 progress=8/8
+t=1960 pos=41, 91, -33 status=떨어진 수확물 줍는 중 progress=8/8
+t=2000 pos=41, 91, -27 status=떨어진 수확물 줍는 중 progress=8/8
+t=2040 pos=41, 91, -27 status=떨어진 수확물 줍는 중 progress=8/8
+t=2080 pos=41, 91, -28 status=떨어진 수확물 줍는 중 progress=8/8
+t=2120 pos=41, 91, -29 status=떨어진 수확물 줍는 중 progress=8/8
+t=2160 pos=41, 91, -29 status=떨어진 수확물 줍는 중 progress=8/8
+t=2200 pos=41, 91, -29 status=떨어진 수확물 줍는 중 progress=8/8
+t=2240 pos=39, 91, -30 status=떨어진 수확물 줍는 중 progress=8/8
+t=2280 pos=31, 91, -32 status=떨어진 수확물 줍는 중 progress=8/8
+t=2320 pos=32, 90, -32 status=떨어진 수확물 줍는 중 progress=8/8
+t=2360 pos=31, 91, -30 status=떨어진 수확물 줍는 중 progress=8/8
+t=2400 pos=31, 91, -23 status=떨어진 수확물 줍는 중 progress=8/8
+t=2440 pos=31, 92, -27 status=떨어진 수확물 줍는 중 progress=8/8
+t=2480 pos=36, 93, -24 status=떨어진 수확물 줍는 중 progress=8/8
+t=2520 pos=35, 92, -27 status=못 심은 곳 다시 심는 중 (1곳) progress=8/8
+  !! farmland lost (69 -> 68) near [33, 90, -31, 35, 90, -30, 36, 91, -28, 39, 90, -30]; player 33.45 91.00 -30.62 onGround=true fall=0.00 vy=-0.08 inWater=false
+      tick: 35.24 92.86 -26.65 ground=false fall=0.08 vy=-0.16 jump=false sprint=false over farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 35.18 92.70 -26.78 ground=false fall=0.23 vy=-0.23 jump=false sprint=false over farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 35.13 92.47 -26.91 ground=false fall=0.46 vy=-0.30 jump=false sprint=false over farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 35.06 92.17 -27.05 ground=false fall=0.77 vy=-0.38 jump=false sprint=false over farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 35.00 91.94 -27.19 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 34.90 91.94 -27.41 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 34.81 91.94 -27.62 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 34.72 91.94 -27.83 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 34.63 91.94 -28.03 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 34.55 91.94 -28.23 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 34.46 91.94 -28.43 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 34.37 91.94 -28.62 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 34.28 91.94 -28.82 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 34.19 91.94 -29.02 ground=true fall=0.00 vy=-0.08 jump=false sprint=false over farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 34.10 91.94 -29.21 ground=true fall=0.00 vy=-0.08 jump=false sprint=false over farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 34.01 91.94 -29.41 ground=true fall=0.00 vy=-0.08 jump=false sprint=false over farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 33.92 91.86 -29.60 ground=false fall=0.08 vy=-0.16 jump=false sprint=false over farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 33.86 91.70 -29.73 ground=false fall=0.23 vy=-0.23 jump=false sprint=false over farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 33.80 91.47 -29.86 ground=false fall=0.46 vy=-0.30 jump=false sprint=false over farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 33.74 91.17 -30.00 ground=false fall=0.77 vy=-0.38 jump=false sprint=false over farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 33.67 90.94 -30.14 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 33.57 90.94 -30.36 ground=true fall=0.00 vy=-0.08 jump=false sprint=false on farmland | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 33.51 91.00 -30.48 ground=true fall=0.00 vy=-0.08 jump=false sprint=false  | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 33.48 91.00 -30.54 ground=true fall=0.00 vy=-0.08 jump=false sprint=false  | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 33.47 91.00 -30.58 ground=true fall=0.00 vy=-0.08 jump=false sprint=false  | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 33.46 91.00 -30.60 ground=true fall=0.00 vy=-0.08 jump=false sprint=false  | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 33.45 91.00 -30.61 ground=true fall=0.00 vy=-0.08 jump=false sprint=false  | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 33.45 91.00 -30.62 ground=true fall=0.00 vy=-0.08 jump=false sprint=false  | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 33.45 91.00 -30.62 ground=true fall=0.00 vy=-0.08 jump=false sprint=false  | 못 심은 곳 다시 심는 중 (1곳)
+      tick: 33.45 91.00 -30.62 ground=true fall=0.00 vy=-0.08 jump=false sprint=false  | 못 심은 곳 다시 심는 중 (1곳)
+t=2560 pos=33, 91, -31 status=상자에 보관하는 중 progress=8/8
+t=2600 pos=31, 91, -30 status=다음 바퀴까지 4분 59초 progress=8/8
+ended after 2600 ticks (130 s), running=true waiting=true
+timing: 40 ticks took 2011 ms on average (game speed 99%), slowest 2933 ms, server tick 2.8 ms
+path: walks=0 arrived=0 gaveUp=0 {} plans=0 notFound=0 gaveUpGoals=[] waitTicks=0 walkTicks=0 slowestPlan=0ms
+walk: 0 blocks in 0 s = 0.00 blocks/s, sprinting 0%, sprint-jumps 0
+defense: flees=0 dodges=0 creeperEscapes=0 fights=0 kills=0 hitsTaken=0 lowestHealth=20.0 unreachableTicks=0 fightsGivenUp=0 giveUp=null night=false
+rounds=1 trips=1 harvested=72
+  harvested wheat: 27
+  harvested carrots: 27
+  harvested potatoes: 18
+player at 31, 91, -30 health 20.0
+after: farmland=68 ripe=0 crops=68
+items in chest = 32, drops left lying in the fields = 0
+LOSS: harvested 72 crops, chest 32 items, inventory 185 items (all), on the ground: 0 items in 0 stacks within 8 blocks of the fields

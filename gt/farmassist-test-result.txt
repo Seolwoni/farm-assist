@@ -1,0 +1,96 @@
+RESULT: PASS
+
+t=40 pos=1, 100, 1 status=수확하는 중 progress=1/15
+t=80 pos=1, 100, 1 status=수확하는 중 progress=1/15
+t=120 pos=1, 100, 1 status=수확하는 중 progress=1/15
+t=160 pos=1, 100, 1 status=수확하는 중 progress=1/15
+t=200 pos=1, 100, 1 status=수확하는 중 progress=1/15
+t=240 pos=4, 100, 1 status=수확하는 중 progress=2/15
+t=280 pos=4, 100, 1 status=수확하는 중 progress=2/15
+t=320 pos=4, 100, 1 status=수확하는 중 progress=2/15
+t=360 pos=4, 100, 1 status=수확하는 중 progress=2/15
+t=400 pos=4, 100, 1 status=수확하는 중 progress=2/15
+t=440 pos=7, 100, 1 status=수확하는 중 progress=3/15
+t=480 pos=7, 100, 1 status=수확하는 중 progress=3/15
+t=520 pos=7, 100, 1 status=수확하는 중 progress=3/15
+t=560 pos=7, 100, 1 status=수확하는 중 progress=3/15
+t=600 pos=7, 100, 1 status=수확하는 중 progress=3/15
+t=640 pos=7, 100, 4 status=밭 1 도는 중 (4/15) progress=4/15
+t=680 pos=7, 100, 4 status=수확하는 중 progress=4/15
+t=720 pos=7, 100, 4 status=수확하는 중 progress=4/15
+t=760 pos=7, 100, 4 status=수확하는 중 progress=4/15
+t=800 pos=7, 100, 4 status=수확하는 중 progress=4/15
+t=840 pos=7, 100, 4 status=밭 1 도는 중 (5/15) progress=5/15
+t=880 pos=4, 100, 4 status=수확하는 중 progress=5/15
+t=920 pos=4, 100, 4 status=수확하는 중 progress=5/15
+t=960 pos=4, 100, 4 status=수확하는 중 progress=5/15
+t=1000 pos=4, 100, 4 status=수확하는 중 progress=5/15
+t=1040 pos=4, 100, 4 status=밭 1 도는 중 (6/15) progress=6/15
+t=1080 pos=1, 100, 4 status=수확하는 중 progress=6/15
+t=1120 pos=1, 100, 4 status=수확하는 중 progress=6/15
+t=1160 pos=1, 100, 4 status=수확하는 중 progress=6/15
+t=1200 pos=1, 100, 4 status=수확하는 중 progress=6/15
+t=1240 pos=1, 100, 5 status=밭 1 도는 중 (7/15) progress=7/15
+t=1280 pos=1, 100, 7 status=수확하는 중 progress=7/15
+t=1320 pos=1, 100, 7 status=수확하는 중 progress=7/15
+t=1360 pos=1, 100, 7 status=수확하는 중 progress=7/15
+t=1400 pos=2, 100, 7 status=밭 1 도는 중 (8/15) progress=8/15
+t=1440 pos=4, 100, 7 status=수확하는 중 progress=8/15
+t=1480 pos=4, 100, 7 status=수확하는 중 progress=8/15
+t=1520 pos=4, 100, 7 status=수확하는 중 progress=8/15
+t=1560 pos=7, 100, 7 status=수확하는 중 progress=9/15
+t=1600 pos=7, 100, 7 status=수확하는 중 progress=9/15
+t=1640 pos=7, 100, 7 status=수확하는 중 progress=9/15
+t=1680 pos=7, 100, 7 status=수확하는 중 progress=9/15
+t=1720 pos=10, 101, 5 status=밭 2 도는 중 (10/15) progress=10/15
+t=1760 pos=13, 101, 1 status=수확하는 중 progress=10/15
+t=1800 pos=16, 101, 1 status=밭 2 도는 중 (11/15) progress=11/15
+t=1840 pos=16, 101, 1 status=수확하는 중 progress=11/15
+t=1880 pos=16, 101, 1 status=수확하는 중 progress=11/15
+t=1920 pos=16, 101, 1 status=밭 2 도는 중 (12/15) progress=12/15
+t=1960 pos=19, 101, 1 status=수확하는 중 progress=12/15
+t=2000 pos=19, 101, 1 status=수확하는 중 progress=12/15
+t=2040 pos=19, 101, 1 status=밭 2 도는 중 (13/15) progress=13/15
+t=2080 pos=19, 101, 4 status=밭 2 도는 중 (13/15) progress=13/15
+t=2120 pos=19, 101, 4 status=밭 2 도는 중 (13/15) progress=13/15
+t=2160 pos=19, 101, 4 status=수확하는 중 progress=13/15
+t=2200 pos=19, 101, 4 status=수확하는 중 progress=13/15
+t=2240 pos=13, 101, 5 status=밭 2 도는 중 (14/15) progress=14/15
+t=2280 pos=13, 101, 7 status=수확하는 중 progress=14/15
+t=2320 pos=16, 101, 7 status=수확하는 중 progress=15/15
+t=2360 pos=16, 101, 7 status=떨어진 수확물 줍는 중 progress=15/15
+t=2400 pos=14, 101, 3 status=떨어진 수확물 줍는 중 progress=15/15
+t=2440 pos=8, 101, 2 status=떨어진 수확물 줍는 중 progress=15/15
+t=2480 pos=6, 101, -1 status=떨어진 수확물 줍는 중 progress=15/15
+t=2520 pos=-1, 101, 0 status=떨어진 수확물 줍는 중 progress=15/15
+t=2560 pos=3, 100, 2 status=떨어진 수확물 줍는 중 progress=15/15
+t=2600 pos=2, 100, 6 status=떨어진 수확물 줍는 중 progress=15/15
+t=2640 pos=0, 100, 6 status=떨어진 수확물 줍는 중 progress=15/15
+t=2680 pos=-1, 101, 7 status=떨어진 수확물 줍는 중 progress=15/15
+t=2720 pos=3, 100, 6 status=떨어진 수확물 줍는 중 progress=15/15
+t=2760 pos=10, 101, 4 status=떨어진 수확물 줍는 중 progress=15/15
+t=2800 pos=17, 101, 4 status=떨어진 수확물 줍는 중 progress=15/15
+t=2840 pos=13, 101, 3 status=못 심은 곳 다시 심는 중 (2곳) progress=15/15
+t=2880 pos=5, 100, 6 status=못 심은 곳 다시 심는 중 (2곳) progress=15/15
+t=2920 pos=1, 100, 7 status=못 심은 곳 다시 심는 중 (2곳) progress=15/15
+t=2960 pos=0, 100, 7 status=상자에 보관하는 중 progress=15/15
+t=3000 pos=0, 100, 7 status=다음 바퀴까지 4분 58초 progress=15/15
+ended after 3000 ticks, running=true waiting=true
+path: walks=6 arrived=4 gaveUp=1 {갈 수 있는 길이 없어요=1} plans=7 notFound=2 gaveUpGoals=[GoalBlock{x=19,y=101,z=4} from 19, 101, 1] waitTicks=8 walkTicks=174 slowestPlan=52ms
+walk: 27 blocks in 7 s = 3.76 blocks/s, sprinting 18%, sprint-jumps 0
+rounds=1 trips=1 total=85
+  harvested wheat: 18
+  harvested carrots: 18
+  harvested potatoes: 18
+  harvested beetroots: 18
+  harvested sugar_cane: 3
+  harvested pumpkin: 1
+  harvested melon: 1
+  harvested sweet_berry_bush: 2
+  harvested nether_wart: 2
+  harvested cocoa: 2
+  harvested cactus: 1
+  harvested bamboo: 1
+wheat seeds kept in inventory: 37
+items in chest = 28
+drops left lying in the fields = 0

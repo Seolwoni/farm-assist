@@ -1,0 +1,78 @@
+RESULT: PASS
+
+plains at 32, -32, ground 91
+terraces: steps at crop layer y 91, 92, 93; chest at 29, 91, -28
+before: farmland=72 ripe=72 crops=72
+field 계단식 밭: x 32..40, z -32..-24, y 91..93
+stops planned: 8
+t=40 pos=33, 90, -31 status=수확하는 중 progress=1/8
+t=80 pos=33, 90, -31 status=수확하는 중 progress=1/8
+t=120 pos=33, 90, -31 status=수확하는 중 progress=1/8
+t=160 pos=33, 90, -31 status=수확하는 중 progress=1/8
+t=200 pos=33, 90, -31 status=수확하는 중 progress=1/8
+t=240 pos=36, 90, -31 status=수확하는 중 progress=2/8
+t=280 pos=36, 90, -31 status=수확하는 중 progress=2/8
+t=320 pos=36, 90, -31 status=수확하는 중 progress=2/8
+t=360 pos=36, 90, -31 status=수확하는 중 progress=2/8
+t=400 pos=36, 90, -31 status=수확하는 중 progress=2/8
+t=440 pos=36, 90, -31 status=밭 1 도는 중 (3/8) progress=3/8
+t=480 pos=39, 90, -31 status=수확하는 중 progress=3/8
+t=520 pos=39, 90, -31 status=수확하는 중 progress=3/8
+t=560 pos=39, 90, -31 status=수확하는 중 progress=3/8
+t=600 pos=39, 90, -31 status=수확하는 중 progress=3/8
+t=640 pos=39, 90, -31 status=밭 1 도는 중 (4/8) progress=4/8
+t=680 pos=39, 91, -28 status=수확하는 중 progress=4/8
+t=720 pos=39, 91, -28 status=수확하는 중 progress=4/8
+t=760 pos=39, 91, -28 status=수확하는 중 progress=4/8
+t=800 pos=39, 91, -28 status=수확하는 중 progress=4/8
+t=840 pos=39, 91, -28 status=수확하는 중 progress=4/8
+t=880 pos=39, 91, -28 status=수확하는 중 progress=4/8
+t=920 pos=36, 91, -28 status=수확하는 중 progress=5/8
+t=960 pos=36, 91, -28 status=수확하는 중 progress=5/8
+t=1000 pos=36, 91, -28 status=수확하는 중 progress=5/8
+t=1040 pos=36, 91, -28 status=수확하는 중 progress=5/8
+t=1080 pos=36, 91, -28 status=수확하는 중 progress=5/8
+t=1120 pos=36, 91, -28 status=밭 1 도는 중 (6/8) progress=6/8
+t=1160 pos=33, 91, -28 status=수확하는 중 progress=6/8
+t=1200 pos=33, 91, -28 status=수확하는 중 progress=6/8
+t=1240 pos=33, 91, -28 status=수확하는 중 progress=6/8
+t=1280 pos=33, 91, -28 status=수확하는 중 progress=6/8
+t=1320 pos=33, 91, -28 status=밭 1 도는 중 (7/8) progress=7/8
+t=1360 pos=33, 92, -25 status=수확하는 중 progress=7/8
+t=1400 pos=33, 92, -25 status=수확하는 중 progress=7/8
+t=1440 pos=33, 92, -25 status=수확하는 중 progress=7/8
+t=1480 pos=33, 92, -25 status=수확하는 중 progress=7/8
+t=1520 pos=33, 92, -25 status=수확하는 중 progress=7/8
+t=1560 pos=33, 92, -25 status=수확하는 중 progress=7/8
+t=1600 pos=36, 92, -25 status=수확하는 중 progress=8/8
+t=1640 pos=36, 92, -25 status=수확하는 중 progress=8/8
+t=1680 pos=36, 92, -25 status=수확하는 중 progress=8/8
+t=1720 pos=36, 92, -25 status=수확하는 중 progress=8/8
+t=1760 pos=36, 92, -25 status=수확하는 중 progress=8/8
+t=1800 pos=36, 91, -27 status=떨어진 수확물 줍는 중 progress=8/8
+t=1840 pos=36, 91, -28 status=떨어진 수확물 줍는 중 progress=8/8
+t=1880 pos=39, 90, -30 status=떨어진 수확물 줍는 중 progress=8/8
+t=1920 pos=37, 91, -33 status=떨어진 수확물 줍는 중 progress=8/8
+t=1960 pos=39, 90, -30 status=떨어진 수확물 줍는 중 progress=8/8
+t=2000 pos=41, 91, -28 status=떨어진 수확물 줍는 중 progress=8/8
+t=2040 pos=37, 90, -30 status=떨어진 수확물 줍는 중 progress=8/8
+t=2080 pos=31, 91, -30 status=떨어진 수확물 줍는 중 progress=8/8
+t=2120 pos=31, 91, -24 status=떨어진 수확물 줍는 중 progress=8/8
+t=2160 pos=31, 91, -26 status=떨어진 수확물 줍는 중 progress=8/8
+t=2200 pos=34, 93, -23 status=떨어진 수확물 줍는 중 progress=8/8
+t=2240 pos=38, 93, -25 status=떨어진 수확물 줍는 중 progress=8/8
+t=2280 pos=33, 92, -25 status=못 심은 곳 다시 심는 중 (1곳) progress=8/8
+t=2320 pos=30, 91, -27 status=상자에 보관하는 중 progress=8/8
+ended after 2330 ticks (116 s), running=true waiting=true
+timing: 40 ticks took 2004 ms on average (game speed 100%), slowest 2646 ms, server tick 2.3 ms
+path: walks=7 arrived=6 gaveUp=0 {} plans=7 notFound=0 gaveUpGoals=[] waitTicks=7 walkTicks=290 slowestPlan=75ms
+walk: 44 blocks in 12 s = 3.72 blocks/s, sprinting 9%, sprint-jumps 0
+defense: flees=0 dodges=0 creeperEscapes=0 fights=0 kills=0 hitsTaken=0 lowestHealth=20.0 unreachableTicks=0 fightsGivenUp=0 giveUp=null night=false
+rounds=1 trips=1 harvested=72
+  harvested wheat: 27
+  harvested carrots: 27
+  harvested potatoes: 18
+player at 30, 91, -27 health 20.0
+after: farmland=72 ripe=0 crops=72
+items in chest = 31, drops left lying in the fields = 0
+LOSS: harvested 72 crops, chest 31 items, inventory 182 items (all), on the ground: 0 items in 0 stacks within 8 blocks of the fields
